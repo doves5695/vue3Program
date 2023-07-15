@@ -5,12 +5,15 @@
 </template>
 
 <script setup lang="ts">
-const fun =() => 
+const fun = () => 
 {
-  console.log("666");
+  console.log("888");
 }
+fun();
 </script>
 
 <style scoped lang="scss">
-
+.box{
+  height: 100px;
+}
 </style>
