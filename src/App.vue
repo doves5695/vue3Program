@@ -1,19 +1,16 @@
 <template>
-  <div class="box">
-    <h1>我是App</h1>
-    <h1>新增一个标题</h1>
+  <div>
+    <h1>SVG测试</h1>
+    <!-- 测试SVG图标 -->
+    <Pagination></Pagination> 
+    <SvgIcon name="phone" color="blue" width="200px" height="200px"></SvgIcon>
   </div>
 </template>
 
-<script setup lang="ts">
-const fun = () => {
-  console.log('888')
-}
-fun()
+<script setup lang='ts'>
+
 </script>
 
-<style scoped lang="scss">
-.box {
-  height: 100px;
-}
+<style scoped lang='sass'>
+
 </style>
