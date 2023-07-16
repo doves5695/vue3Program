@@ -1,15 +1,15 @@
 <template>
-  <div>
-
-  </div>
+  <div></div>
 </template>
 
-<script setup lang='ts'>
-import { onMounted } from 'vue';
+<script setup lang="ts">
+import { onMounted } from 'vue'
 import { reqLogin } from '@/api/user'
 onMounted(() => {
-  reqLogin({ username: 'admin', password: '111111' });
+  reqLogin({ username: 'admin', password: '111111' })
 })
 </script>
 
-<style scoped lang='scss'></style>
+<style scoped lang="scss">
+  
+</style>

@@ -9,7 +9,7 @@ let request = axios.create({
 })
 // 请求拦截器
 request.interceptors.request.use((config) => {
-  config.headers.token = 'jingrui'
+  config.headers.token = 1;
   return config
 })
 // 响应拦截器
@@ -45,4 +45,4 @@ request.interceptors.response.use(
   },
 )
 
-export default request;
+export default request
