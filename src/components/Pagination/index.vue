@@ -1,13 +1,7 @@
 <template>
-    <div>
-        分页器全局组件
-    </div>
+  <div>分页器全局组件</div>
 </template>
 
-<script setup lang='ts'>
+<script setup lang="ts"></script>
 
-</script>
-
-<style scoped lang='sass'>
-
-</style>
+<style scoped lang="sass"></style>
