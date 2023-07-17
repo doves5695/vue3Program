@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
-import { config } from 'process'
 
 // 通过create方法创建axios, 可以自定义配置一些东西
 let request = axios.create({
@@ -9,7 +8,7 @@ let request = axios.create({
 })
 // 请求拦截器
 request.interceptors.request.use((config) => {
-  config.headers.token = 1;
+  config.headers.token = 1
   return config
 })
 // 响应拦截器
