@@ -3,13 +3,13 @@
     <el-row>
       <el-col :span="12" :xs="0"></el-col>
       <el-col :span="12" :xs="24">
-        <el-form class="login_form">
+        <el-form class="login_form" :model="loginForm" :rules="rules" ref="loginForms">
           <h1>Hello</h1>
           <h2>欢迎来到荆瑞甄选</h2>
-          <el-form-item>
+          <el-form-item prop="username">
             <el-input :prefix-icon="User" v-model="loginForm.username"></el-input>
           </el-form-item>
-          <el-form-item>
+          <el-form-item prop="password">
             <el-input type="password" :prefix-icon="Lock" v-model="loginForm.password" show-password></el-input>
           </el-form-item>
           <el-form-item>
@@ -27,32 +27,49 @@
 import { User, Lock } from '@element-plus/icons-vue'
 import { reactive, ref } from 'vue'
 import useUserStore from '@/store/modules/user'
-import { useRouter } from 'vue-router';
-import { ElNotification } from 'element-plus';
+import { useRouter } from 'vue-router'
+import { ElNotification } from 'element-plus'
+import { el } from 'element-plus/es/locale'
+import { getTime } from '@/utils/time'
 
-let userStore = useUserStore();
+let userStore = useUserStore()
+let loginForms = ref();
 let loginForm = reactive({ username: 'admin', password: '111111' })
 let $router = useRouter()
 let loading = ref(false)
 
 const login = async () => {
+  await loginForms.value.validate();
   loading.value = true
   try {
-    await userStore.userLogin(loginForm);
-    $router.push('/');
+    await userStore.userLogin(loginForm)
+    $router.push('/')
     ElNotification({
       type: 'success',
-      message: '登录成功'
-    })
+      message: '欢迎回来',
+      title: `Hi, ${getTime()}`
+    })  
     loading.value = false
   } catch (error) {
     ElNotification({
       type: 'error',
-      message: (error as Error).message
+      message: (error as Error).message,
     })
     loading.value = false
   }
 }
+
+
+const rules = {
+  username: [
+    // { required: true, message: '用户名不可以为空', trigger: "blur" },
+    { required: true, min: 6, max: 10, message: '账号长度最少为6位', trigger: 'change' }
+  ],
+  password: [
+    { require: true, min:6, max:15, message: '密码长度至少6位', trigger: 'change'}
+  ]
+}
+
 </script>
 
 <style scoped lang="scss">
