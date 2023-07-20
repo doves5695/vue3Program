@@ -33,13 +33,13 @@ import { el } from 'element-plus/es/locale'
 import { getTime } from '@/utils/time'
 
 let userStore = useUserStore()
-let loginForms = ref();
+let loginForms = ref()
 let loginForm = reactive({ username: 'admin', password: '111111' })
 let $router = useRouter()
 let loading = ref(false)
 
 const login = async () => {
-  await loginForms.value.validate();
+  await loginForms.value.validate()
   loading.value = true
   try {
     await userStore.userLogin(loginForm)
@@ -47,8 +47,8 @@ const login = async () => {
     ElNotification({
       type: 'success',
       message: '欢迎回来',
-      title: `Hi, ${getTime()}`
-    })  
+      title: `Hi, ${getTime()}`,
+    })
     loading.value = false
   } catch (error) {
     ElNotification({
@@ -60,16 +60,47 @@ const login = async () => {
 }
 
 
+// 自定义表单校验
+const validatorUserName = (rule: any, value: any, callback: any) => {
+  if (value.length >= 5) {
+    callback();
+  } else {
+    callback(new Error('账号长度最少五位'));
+  }
+}
+
+const validatorPassword = (rule:any, value: any, callback: any) => {
+  if (value.length >= 6) {
+    callback();
+  } else {
+    callback(new Error('密码长度最少为六位'))
+  }
+}
+
+
 const rules = {
   username: [
     // { required: true, message: '用户名不可以为空', trigger: "blur" },
-    { required: true, min: 6, max: 10, message: '账号长度最少为6位', trigger: 'change' }
+    // {
+    //   required: true,
+    //   min: 6,
+    //   max: 10,
+    //   message: '账号长度最少为6位',
+    //   trigger: 'change',
+    // },
+    { trigger: 'change', validator: validatorUserName, }
   ],
   password: [
-    { require: true, min:6, max:15, message: '密码长度至少6位', trigger: 'change'}
-  ]
+    // {
+    //   require: true,
+    //   min: 6,
+    //   max: 15,
+    //   message: '密码长度至少6位',
+    //   trigger: 'change',
+    // },
+    { trigger: 'change', validator: validatorPassword }
+  ],
 }
-
 </script>
 
 <style scoped lang="scss">
