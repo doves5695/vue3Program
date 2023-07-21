@@ -15,7 +15,7 @@ onMounted(() => {
 <style scoped lang="scss">
 div {
   h1 {
-    color:red;
+    color: red;
   }
 }
 </style>

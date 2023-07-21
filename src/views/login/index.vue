@@ -3,17 +3,36 @@
     <el-row>
       <el-col :span="12" :xs="0"></el-col>
       <el-col :span="12" :xs="24">
-        <el-form class="login_form" :model="loginForm" :rules="rules" ref="loginForms">
+        <el-form
+          class="login_form"
+          :model="loginForm"
+          :rules="rules"
+          ref="loginForms"
+        >
           <h1>Hello</h1>
           <h2>欢迎来到荆瑞甄选</h2>
           <el-form-item prop="username">
-            <el-input :prefix-icon="User" v-model="loginForm.username"></el-input>
+            <el-input
+              :prefix-icon="User"
+              v-model="loginForm.username"
+            ></el-input>
           </el-form-item>
           <el-form-item prop="password">
-            <el-input type="password" :prefix-icon="Lock" v-model="loginForm.password" show-password></el-input>
+            <el-input
+              type="password"
+              :prefix-icon="Lock"
+              v-model="loginForm.password"
+              show-password
+            ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button :loading="loading" class="login_btn" type="primary" size="default" @click="login">
+            <el-button
+              :loading="loading"
+              class="login_btn"
+              type="primary"
+              size="default"
+              @click="login"
+            >
               登录
             </el-button>
           </el-form-item>
@@ -59,24 +78,22 @@ const login = async () => {
   }
 }
 
-
 // 自定义表单校验
 const validatorUserName = (rule: any, value: any, callback: any) => {
   if (value.length >= 5) {
-    callback();
+    callback()
   } else {
-    callback(new Error('账号长度最少五位'));
+    callback(new Error('账号长度最少五位'))
   }
 }
 
-const validatorPassword = (rule:any, value: any, callback: any) => {
+const validatorPassword = (rule: any, value: any, callback: any) => {
   if (value.length >= 6) {
-    callback();
+    callback()
   } else {
     callback(new Error('密码长度最少为六位'))
   }
 }
-
 
 const rules = {
   username: [
@@ -88,7 +105,7 @@ const rules = {
     //   message: '账号长度最少为6位',
     //   trigger: 'change',
     // },
-    { trigger: 'change', validator: validatorUserName, }
+    { trigger: 'change', validator: validatorUserName },
   ],
   password: [
     // {
@@ -98,7 +115,7 @@ const rules = {
     //   message: '密码长度至少6位',
     //   trigger: 'change',
     // },
-    { trigger: 'change', validator: validatorPassword }
+    { trigger: 'change', validator: validatorPassword },
   ],
 }
 </script>
