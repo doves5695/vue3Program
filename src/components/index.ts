@@ -6,7 +6,7 @@ export default {
   install(app) {
     Object.keys(allGlobalComponent).forEach((key) => {
       app.component(key, allGlobalComponent[key])
-    });
+    })
     for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
       app.component(key, component)
     }
