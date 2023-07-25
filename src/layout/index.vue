@@ -1,20 +1,34 @@
 <template>
   <div class="layout_container">
     <!-- 左侧的菜单导航栏 -->
-    <div class="layout_slider" :class="{ fold: LayOutSettingStore.fold ? true : false }">
+    <div
+      class="layout_slider"
+      :class="{ fold: LayOutSettingStore.fold ? true : false }"
+    >
       <Logo></Logo>
       <el-scrollbar class="scrollbar">
-        <el-menu :collapse="LayOutSettingStore.fold ? true : false " :default-active="$route.path" background-color="#001529" text-color="white">
+        <el-menu
+          :collapse="LayOutSettingStore.fold ? true : false"
+          :default-active="$route.path"
+          background-color="#001529"
+          text-color="white"
+        >
           <Menu :menuList="userStore.menuRoutes"></Menu>
         </el-menu>
       </el-scrollbar>
     </div>
     <!-- 顶部导航 -->
-    <div class="layout_tabbar" :class="{ fold: LayOutSettingStore.fold ? true : false }">
+    <div
+      class="layout_tabbar"
+      :class="{ fold: LayOutSettingStore.fold ? true : false }"
+    >
       <Tabbar></Tabbar>
     </div>
     <!-- 内容主要展示区 -->
-    <div class="layout_main" :class="{ fold: LayOutSettingStore.fold ? true : false }">
+    <div
+      class="layout_main"
+      :class="{ fold: LayOutSettingStore.fold ? true : false }"
+    >
       <Main></Main>
     </div>
   </div>
@@ -30,12 +44,12 @@ import Tabbar from './tabbar/index.vue'
 import useLayOutSettingStore from '@/store/modules/setting'
 let userStore = useUserStore()
 let $route = useRoute()
-let LayOutSettingStore = useLayOutSettingStore();
+let LayOutSettingStore = useLayOutSettingStore()
 </script>
 
 <script lang="ts">
 export default {
-  name: 'Layout'
+  name: 'Layout',
 }
 </script>
 
@@ -64,8 +78,6 @@ export default {
       width: $base-menu-min-width;
     }
   }
-
-
 
   .layout_tabbar {
     position: fixed;

@@ -1,6 +1,8 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
 
+import useUserStore from '@/store/modules/user'
+
 // 通过create方法创建axios, 可以自定义配置一些东西
 let request = axios.create({
   baseURL: import.meta.env.VITE_APP_BASE_API,
@@ -8,7 +10,10 @@ let request = axios.create({
 })
 // 请求拦截器
 request.interceptors.request.use((config) => {
-  config.headers.token = 1
+  let userStore = useUserStore()
+  if (userStore.token) {
+    config.headers.token = userStore.token
+  }
   return config
 })
 // 响应拦截器
