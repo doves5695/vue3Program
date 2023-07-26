@@ -1,8 +1,21 @@
 <template>
-  <el-button size="small" icon="Refresh" circle @click="updateRefsh"></el-button>
-  <el-button size="small" icon="FullScreen" circle @click="fullScreen"></el-button>
+  <el-button
+    size="small"
+    icon="Refresh"
+    circle
+    @click="updateRefsh"
+  ></el-button>
+  <el-button
+    size="small"
+    icon="FullScreen"
+    circle
+    @click="fullScreen"
+  ></el-button>
   <el-button size="small" icon="Setting" circle></el-button>
-  <img :src="userStore.avatar" style="width: 24px; height: 24px; margin: 0 12px;border-radius:50%;" />
+  <img
+    :src="userStore.avatar"
+    style="width: 24px; height: 24px; margin: 0 12px; border-radius: 50%"
+  />
   <el-dropdown>
     <span class="el-dropdown-link">
       {{ userStore.username }}
@@ -19,13 +32,13 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter, useRoute } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router'
 import useLayOutSettingStore from '@/store/modules/setting'
 import useUserStore from '@/store/modules/user'
 let LayOutSettingStore = useLayOutSettingStore()
-let userStore = useUserStore();
-let $router = useRouter();
-let $route = useRoute();
+let userStore = useUserStore()
+let $router = useRouter()
+let $route = useRoute()
 // main路由刷新
 const updateRefsh = () => {
   LayOutSettingStore.refsh = !LayOutSettingStore.refsh
@@ -42,8 +55,8 @@ const fullScreen = () => {
 }
 
 const logout = () => {
-  userStore.userLogout();
-  $router.push({ path: '/login', query: { redirect: $route.path } });
+  userStore.userLogout()
+  $router.push({ path: '/login', query: { redirect: $route.path } })
 }
 </script>
 

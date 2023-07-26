@@ -1,34 +1,21 @@
 <template>
   <div class="layout_container">
     <!-- 左侧的菜单导航栏 -->
-    <div
-      class="layout_slider"
-      :class="{ fold: LayOutSettingStore.fold ? true : false }"
-    >
+    <div class="layout_slider">
       <Logo></Logo>
       <el-scrollbar class="scrollbar">
-        <el-menu
-          :collapse="LayOutSettingStore.fold ? true : false"
-          :default-active="$route.path"
-          background-color="#001529"
-          text-color="white"
-        >
+        <el-menu :collapse="LayOutSettingStore.fold ? true : false" :default-active="$route.path"
+          background-color="#001529" text-color="white">
           <Menu :menuList="userStore.menuRoutes"></Menu>
         </el-menu>
       </el-scrollbar>
     </div>
     <!-- 顶部导航 -->
-    <div
-      class="layout_tabbar"
-      :class="{ fold: LayOutSettingStore.fold ? true : false }"
-    >
+    <div class="layout_tabbar" :class="{ fold: LayOutSettingStore.fold ? true : false }">
       <Tabbar></Tabbar>
     </div>
     <!-- 内容主要展示区 -->
-    <div
-      class="layout_main"
-      :class="{ fold: LayOutSettingStore.fold ? true : false }"
-    >
+    <div class="layout_main" :class="{ fold: LayOutSettingStore.fold ? true : false }">
       <Main></Main>
     </div>
   </div>
@@ -72,10 +59,6 @@ export default {
       .el-menu {
         border-right: none;
       }
-    }
-
-    &.fold {
-      width: $base-menu-min-width;
     }
   }
 

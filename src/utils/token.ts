@@ -9,5 +9,5 @@ export const GET_TOKEN = () => {
 }
 // 删除数据
 export const REMOVE_TOKEN = () => {
-  return localStorage.removeItem('TOKEN');
+  return localStorage.removeItem('TOKEN')
 }
