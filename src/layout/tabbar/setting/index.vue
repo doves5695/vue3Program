@@ -1,21 +1,8 @@
 <template>
-  <el-button
-    size="small"
-    icon="Refresh"
-    circle
-    @click="updateRefsh"
-  ></el-button>
-  <el-button
-    size="small"
-    icon="FullScreen"
-    circle
-    @click="fullScreen"
-  ></el-button>
+  <el-button size="small" icon="Refresh" circle @click="updateRefsh"></el-button>
+  <el-button size="small" icon="FullScreen" circle @click="fullScreen"></el-button>
   <el-button size="small" icon="Setting" circle></el-button>
-  <img
-    :src="userStore.avatar"
-    style="width: 24px; height: 24px; margin: 0 12px; border-radius: 50%"
-  />
+  <img :src="userStore.avatar" style="width: 24px; height: 24px; margin: 0 12px; border-radius: 50%" />
   <el-dropdown>
     <span class="el-dropdown-link">
       {{ userStore.username }}
@@ -54,8 +41,8 @@ const fullScreen = () => {
   }
 }
 
-const logout = () => {
-  userStore.userLogout()
+const logout = async () => {
+  await userStore.userLogout()
   $router.push({ path: '/login', query: { redirect: $route.path } })
 }
 </script>

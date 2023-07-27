@@ -53,7 +53,7 @@ import { getTime } from '@/utils/time'
 
 let userStore = useUserStore()
 let loginForms = ref()
-let loginForm = reactive({ username: 'admin', password: '111111' })
+let loginForm = reactive({ username: 'admin', password: 'atguigu123' })
 let $router = useRouter()
 let $route = useRoute()
 let loading = ref(false)

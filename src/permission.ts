@@ -12,7 +12,7 @@ import useUserStore from './store/modules/user'
 let userStore = useUserStore(pinia)
 // 全局前置守卫
 router.beforeEach(async (to: any, from: any, next: any) => {
-  document.title = `${setting.title} - ${to.meta.title}`;
+  document.title = `${setting.title} - ${to.meta.title}`
   nprogress.start()
   let token = userStore.token
   let username = userStore.username
@@ -33,7 +33,7 @@ router.beforeEach(async (to: any, from: any, next: any) => {
           // token过期: 获取不到用户信息
           // 用户手动修改了本地信息
           // 出现问题的时候回到login页面
-          userStore.userLogout()
+          await userStore.userLogout()
           next({ path: '/login', query: { redirect: to.path } })
         }
       }
