@@ -1,6 +1,6 @@
 // 书写属性相关的api文件
 import request from '@/utils/request'
-import type { CategoryResponseData,AttrResponseData } from './type'
+import type { CategoryResponseData, AttrResponseData } from './type'
 
 // 枚举api
 enum API {
@@ -13,11 +13,8 @@ enum API {
   // 获取分类下已有的属性和属性值
   ATTR_URL = '/admin/product/attrInfoList/',
   // 添加或修改属性的接口
-  ADDORUPDATEATTR_URL= '/admin/product/saveAttrInfo'
+  ADDORUPDATEATTR_URL = '/admin/product/saveAttrInfo',
 }
-
-
-
 
 // 获取一级分类的接口
 export const reqC1 = () => request.get<any, CategoryResponseData>(API.C1_URL)
@@ -29,7 +26,15 @@ export const reqC3 = (catrgory2Id: number | string) =>
   request.get<any, CategoryResponseData>(API.C3_URL + catrgory2Id)
 
 // 获取分类下已有的数据的接口
-export const reqAttr = (catrgory1Id: number | string,catrgory2Id: number | string,catrgory3Id: number | string) => request.get<any,AttrResponseData>(API.ATTR_URL+ `${catrgory1Id}/${catrgory2Id}/${catrgory3Id}`);
+export const reqAttr = (
+  catrgory1Id: number | string,
+  catrgory2Id: number | string,
+  catrgory3Id: number | string,
+) =>
+  request.get<any, AttrResponseData>(
+    API.ATTR_URL + `${catrgory1Id}/${catrgory2Id}/${catrgory3Id}`,
+  )
 
 // 修改或增加数据的接口
-export const reqAddOrUpdateAttr = (data: Attr) => request.post<any,any>(API.ADDORUPDATEATTR_URL, data);
+export const reqAddOrUpdateAttr = (data: Attr) =>
+  request.post<any, any>(API.ADDORUPDATEATTR_URL, data)

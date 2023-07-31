@@ -31,15 +31,15 @@ let useCategoryStore = defineStore('Category', {
     async getC2() {
       let result: CategoryResponseData = await reqC2(this.c1Id)
       if (result.code == 200) {
-        this.c2Arr = result.data;
+        this.c2Arr = result.data
       }
     },
     async getC3() {
-        let result: CategoryResponseData = await reqC3(this.c2Id);
-        if (result.code == 200) {
-            this.c3Arr = result.data;
-        }
-    }
+      let result: CategoryResponseData = await reqC3(this.c2Id)
+      if (result.code == 200) {
+        this.c3Arr = result.data
+      }
+    },
   },
   getters: {},
 })
