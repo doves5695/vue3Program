@@ -20,7 +20,7 @@
           </el-table-column>
           <el-table-column label="操作" width="120px" align="center">
             <template #="{ row, index }">
-              <el-button type="primary" size="small" icon="Edit" @click="updateAttr"></el-button>
+              <el-button type="primary" size="small" icon="Edit" @click="updateAttr(row)"></el-button>
               <el-button type="primary" size="small" icon="Delete"></el-button>
             </template>
           </el-table-column>
@@ -42,13 +42,22 @@
           <el-table-column label="序号" type="index" align="center" width="80px"></el-table-column>
           <el-table-column label="属性值名称" align="center">
             <template #="{ row, $index }">
-              <el-input v-if="row.flag" placeholder="请输入对应属性值名字" v-model="row.valueName" @blur="toLook(row, $index)"></el-input>
-              <div v-else @click="toEdit(row)">{{row.valueName}}</div>
+              <el-input v-if="row.flag" placeholder="请输入对应属性值名字" v-model="row.valueName"
+                @blur="toLook(row, $index)" :ref="(vc:any)=>inputArr[$index]=vc"></el-input>
+              <div v-else @click="toEdit(row,$index)">{{ row.valueName }}</div>
             </template>
           </el-table-column>
-          <el-table-column label="操作" align="center"></el-table-column>
+          <el-table-column label="操作" align="center">
+            <template #="{row, index}">
+              <el-button type="primary" size="small" icon="Delete" @click="attrParams.attrValueList.splice(index
+              ,1)"></el-button>
+            </template>
+          </el-table-column>
         </el-table>
-        <el-button type="primary" size="default" @click="save" :disabled="attrParams.attrValueList.length>0?false:true">保存</el-button>
+        <el-button type="primary" size="default" @click="save"
+          :disabled="attrParams.attrValueList.length > 0 ? false : true">
+          保存
+        </el-button>
         <el-button size="default" @click="cancel">取消</el-button>
       </div>
     </el-card>
@@ -57,7 +66,7 @@
 
 <script setup lang="ts">
 import useCategoryStore from '@/store/modules/category'
-import { watch, ref, reactive } from 'vue'
+import { watch, ref, reactive, nextTick } from 'vue'
 import { reqAttr, reqAddOrUpdateAttr } from '@/api/product/attr/index'
 import { AttrResponseData, Attr, AttrValue } from '@/api/product/attr/type'
 import { ElMessage } from 'element-plus'
@@ -77,6 +86,8 @@ let attrParams = reactive<Attr>({
   categoryLevel: 3, // 代表的是三级分类
 })
 
+// 准备一个数组:将来存储对应的组件实例el-input
+let inputArr = ref<any>([]);
 
 
 // 监听三级分类的id
@@ -116,8 +127,10 @@ const addAttr = () => {
 }
 
 // 修改改变下方显示
-const updateAttr = () => {
+const updateAttr = (row:Attr) => {
   scene.value = 1
+  // 将已有的属性对象赋值给attrParams对象即可
+  Object.assign(attrParams,JSON.parse(JSON.stringify(row)));
 }
 
 // 取消的回调函数
@@ -130,65 +143,71 @@ const addAttrValue = () => {
   // 点击添加属性值按钮的时候, 向数组添加一个属性值对象
   attrParams.attrValueList.push({
     valueName: '',
-    flag:true  // 控制编辑与观察模式的标识
-  })
+    flag: true, // 控制编辑与观察模式的标识
+  });
+  nextTick(()=>{
+    inputArr.value[attrParams.attrValueList.length-1].focus();
+  });
 }
 
 // 在保存按钮的回调
 const save = async () => {
   // 发请求
-  let result: any = await reqAddOrUpdateAttr(attrParams);
+  let result: any = await reqAddOrUpdateAttr(attrParams)
   if (result.code == 200) {
-    scene.value = 0;
+    scene.value = 0
     ElMessage({
       type: 'success',
-      message: attrParams.id ? '修改属性成功' : '添加属性成功'
-    });
-    getAttr();
+      message: attrParams.id ? '修改属性成功' : '添加属性成功',
+    })
+    getAttr()
   } else {
     ElMessage({
       type: 'error',
-      message: attrParams.id ? '修改属性失败' : '添加属性失败'
+      message: attrParams.id ? '修改属性失败' : '添加属性失败',
     })
   }
 }
 
 // 当input框失焦就变成观察模式
-const toLook = (row:AttrValue, $index:number) => {
+const toLook = (row: AttrValue, $index: number) => {
   // 非法情况判断
   if (row.valueName.trim() == '') {
     // 删除对应属性值为空的元素
-    attrParams.attrValueList.splice($index, 1);
+    attrParams.attrValueList.splice($index, 1)
     ElMessage({
       type: 'error',
-      message: '属性值名称不能为空'
-    });
-    return;
+      message: '属性值名称不能为空',
+    })
+    return
   }
-   // 属性值不能有相同的
-   let repeat = attrParams.attrValueList.find((item) => {
-      // 判断是否相等的时候切记把自己扣出去不然相当于自己找自己
-      if (item != row ) {
-        return item.valueName === row.valueName;
-      }
-    });
-   if (repeat) {
-        attrParams.attrValueList.splice($index, 1);
-        ElMessage({
-          type: 'error',
-          message: '属性值名称不能重复'
-        });
-        return;
-   };
-    
-  row.flag = false;
+  // 属性值不能有相同的
+  let repeat = attrParams.attrValueList.find((item) => {
+    // 判断是否相等的时候切记把自己扣出去不然相当于自己找自己
+    if (item != row) {
+      return item.valueName === row.valueName
+    }
+  })
+  if (repeat) {
+    attrParams.attrValueList.splice($index, 1)
+    ElMessage({
+      type: 'error',
+      message: '属性值名称不能重复',
+    })
+    return
+  }
+
+  row.flag = false
 }
 
 // 点击div切换为编辑模式
-const toEdit = (row:AttrValue) => {
+const toEdit = (row: AttrValue, $index:number) => {
   row.flag = true;
+  // 响应式数据发生变化,获取更新后的DOM(组件实例)
+  nextTick(() => {
+    inputArr.value[$index].focus();
+  })
 }
-
 </script>
 
 <style scoped lang="scss"></style>
