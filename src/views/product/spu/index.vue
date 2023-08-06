@@ -4,31 +4,79 @@
     <Category :scene="scene" />
     <!-- 下边背景 -->
     <el-card style="margin: 10px 0">
-      <div v-show="scene==0">
-        <el-button type="primary" size="default" icon="Plus" :disabled="categoryStore.c3Id ? false : true" @click="addSpu">
+      <div v-show="scene == 0">
+        <el-button
+          type="primary"
+          size="default"
+          icon="Plus"
+          :disabled="categoryStore.c3Id ? false : true"
+          @click="addSpu"
+        >
           添加SPU
         </el-button>
         <!-- 用来展示已有的spu数据 -->
         <el-table style="margin: 10px 0" border :data="records">
-          <el-table-column label="序号" align="center" width="80px" type="index"></el-table-column>
-          <el-table-column label="SPU名称" align="center" prop="spuName"></el-table-column>
-          <el-table-column label="SPU描述" align="center" prop="description" show-overflow-tooltip></el-table-column>
+          <el-table-column
+            label="序号"
+            align="center"
+            width="80px"
+            type="index"
+          ></el-table-column>
+          <el-table-column
+            label="SPU名称"
+            align="center"
+            prop="spuName"
+          ></el-table-column>
+          <el-table-column
+            label="SPU描述"
+            align="center"
+            prop="description"
+            show-overflow-tooltip
+          ></el-table-column>
           <el-table-column label="操作" align="center">
             <template #="{ row, $index }">
-              <el-button type="primary" size="small" icon="Plus" title="添加sku"></el-button>
-              <el-button type="warning" size="small" icon="Edit" title="修改商品的spu" @click="updateSpu(row)"></el-button>
-              <el-button type="info" size="small" icon="view" title="查看sku列表"></el-button>
-              <el-button type="danger" size="small" icon="Delete" title="删除spu"></el-button>
+              <el-button
+                type="primary"
+                size="small"
+                icon="Plus"
+                title="添加sku"
+              ></el-button>
+              <el-button
+                type="warning"
+                size="small"
+                icon="Edit"
+                title="修改商品的spu"
+                @click="updateSpu(row)"
+              ></el-button>
+              <el-button
+                type="info"
+                size="small"
+                icon="view"
+                title="查看sku列表"
+              ></el-button>
+              <el-button
+                type="danger"
+                size="small"
+                icon="Delete"
+                title="删除spu"
+              ></el-button>
             </template>
           </el-table-column>
         </el-table>
         <!-- 分页器 -->
-        <el-pagination v-model:current-page="pageNo" v-model:page-size="pageSize" :page-sizes="[3, 5, 7, 9]"
-          :background="true" layout="prev, pager, next, jumper, ->, sizes, total" :total="total"
-          @current-change="getHasSpu" @size-change="changSize" />
+        <el-pagination
+          v-model:current-page="pageNo"
+          v-model:page-size="pageSize"
+          :page-sizes="[3, 5, 7, 9]"
+          :background="true"
+          layout="prev, pager, next, jumper, ->, sizes, total"
+          :total="total"
+          @current-change="getHasSpu"
+          @size-change="changSize"
+        />
       </div>
-      <SpuForm ref="spu" v-show="scene==1" @changScene="changScene"></SpuForm>
-      <SkuForm v-show="scene==2"></SkuForm>
+      <SpuForm ref="spu" v-show="scene == 1" @changScene="changScene"></SpuForm>
+      <SkuForm v-show="scene == 2"></SkuForm>
     </el-card>
   </div>
 </template>
@@ -46,9 +94,11 @@ import useCategoryStore from '@/store/modules/category'
 import { reqHasSpu } from '@/api/product/spu'
 // 引入请求的数据类型
 
-import type { HasSpuResponseData, Records, SpuData } from '@/api/product/spu/type'
-
-
+import type {
+  HasSpuResponseData,
+  Records,
+  SpuData,
+} from '@/api/product/spu/type'
 
 // 使用仓库
 let categoryStore = useCategoryStore()
@@ -67,8 +117,7 @@ let total = ref<number>()
 let records = ref<Records>([])
 
 // 获取子组件实例
-let spu = ref<any>();
-
+let spu = ref<any>()
 
 // 用此方法监听c3Id的变化
 watch(
@@ -102,19 +151,18 @@ const changSize = () => {
 
 // 添加spu的回调
 const addSpu = () => {
-  scene.value = 1;
+  scene.value = 1
 }
 // 修改spu的回调
-const updateSpu = (row:SpuData) => {
-  scene.value = 1;
-  spu.value.initHasSpuData(row);
+const updateSpu = (row: SpuData) => {
+  scene.value = 1
+  spu.value.initHasSpuData(row)
 }
 
 // 子组件当中的自定义事件来给父组件传数据
-const changScene = (num:number) => {
-  scene.value = num;
+const changScene = (num: number) => {
+  scene.value = num
 }
-
 </script>
 
 <style scoped lang="scss"></style>

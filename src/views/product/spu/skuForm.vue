@@ -1,13 +1,9 @@
 <template>
-     <div>
-        <h1>未来用来添加sku的页面</h1>
-    </div>
+  <div>
+    <h1>未来用来添加sku的页面</h1>
+  </div>
 </template>
 
-<script setup lang='ts'>
+<script setup lang="ts"></script>
 
-</script>
-
-<style scoped lang='scss'>
-
-</style>
+<style scoped lang="scss"></style>

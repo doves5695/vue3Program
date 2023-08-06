@@ -8,7 +8,7 @@ import type {
   AllTrademark,
   SpuHasImg,
   SaleAttrResponseData,
-  HasSaleAttrResponseData
+  HasSaleAttrResponseData,
 } from './type'
 enum API {
   // 获取接口当中已有的spu数据
@@ -24,9 +24,7 @@ enum API {
   // 添加或保存一个新的spu
   ADDSPU_URL = '/admin/product/saveSpuInfo',
   // 更新一个新的spu
-  UPDATE_URL = '/admin/product/updateSpuInfo'
-
-
+  UPDATE_URL = '/admin/product/updateSpuInfo',
 }
 // 获取某一个已有的三级分类下spu数据
 export const reqHasSpu = (
@@ -48,17 +46,18 @@ export const reqSpuImageList = (spuId: number) =>
 
 // 获取某一个已有的spu拥有多少个销售属性
 export const reqSpuHasSaleAttr = (spuId: number) =>
-  request.get<any, SaleAttrResponseData>(API.SPUHASSALEATTR_URL+spuId);
+  request.get<any, SaleAttrResponseData>(API.SPUHASSALEATTR_URL + spuId)
 
 // 获取全部的销售属性
-export const reqAllSaleAttr = () => request.get<any,HasSaleAttrResponseData>(API.ALLSALEATTR_URL)
+export const reqAllSaleAttr = () =>
+  request.get<any, HasSaleAttrResponseData>(API.ALLSALEATTR_URL)
 
 // 添加或更新一个新的spu
 export const reqAddOrUpdateSpu = (data: SpuData) => {
   // 如果有id那么就是更新
   if (data.id) {
-    return request.post<any, any>(API.UPDATE_URL,data);
+    return request.post<any, any>(API.UPDATE_URL, data)
   } else {
-    return request.post<any, any>(API.ADDSPU_URL, data);
+    return request.post<any, any>(API.ADDSPU_URL, data)
   }
 }

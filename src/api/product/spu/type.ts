@@ -7,12 +7,12 @@ export interface ResponseData {
 
 // spu数据的ts类型: 未来需要修改
 export interface SpuData {
-  category3Id: string | number,
-  id?: number,
-  spuName: string,
-  description: string,
-  tmId: string | number,
-  spuSaleAttrList: null | SaleAttr[],
+  category3Id: string | number
+  id?: number
+  spuName: string
+  description: string
+  tmId: string | number
+  spuSaleAttrList: null | SaleAttr[]
   spuImageList: null | SpuImg[]
 }
 
@@ -22,57 +22,58 @@ export type Records = SpuData[]
 // 定义接口返回的data类型
 export interface HasSpuResponseData extends ResponseData {
   data: {
-    records: Records,
-    total: number,
-    size: number,
-    current: number,
-    searchCount: boolean,
+    records: Records
+    total: number
+    size: number
+    current: number
+    searchCount: boolean
     pages: number
   }
 }
 
 // 品牌数据的ts类型
 export interface Trademark {
-  id: number,
-  tmName: string,
+  id: number
+  tmName: string
   logoUrl: string
 }
 
 // 品牌接口返回的数据ts类型
-export interface AllTrademark extends ResponseData{
-  data: Trademark[];
+export interface AllTrademark extends ResponseData {
+  data: Trademark[]
 }
 
 // 商品图片的ts类型
 export interface SpuImg {
-  id?: number,
-  imgName: string,
-  imgUrl: string,
-  createTime?: string,
-  updateTime?: string,
+  id?: number
+  imgName?: string
+  imgUrl?: string
+  createTime?: string
+  updateTime?: string
   spuId?: number,
-  
+  name?: string,
+  url? : string
 }
 
 // 已存在的spu的照片墙数据类型
 export interface SpuHasImg extends ResponseData {
-  data: SpuImg[];
+  data: SpuImg[]
 }
 
 // 已有的销售属性值对象的ts类型
 export interface SaleAttrValue {
-  id?: number,
-  createTime?: null,
-  updateTime?: null,
-  spuId?: number,
-  baseSaleAttrId: null,
-  saleAttrValueName: string,
-  saleAttrName?: string,
+  id?: number
+  createTime?: null
+  updateTime?: null
+  spuId?: number
+  baseSaleAttrId: number | string
+  saleAttrValueName: string
+  saleAttrName?: string
   isChecked?: null
 }
 
 // 存储已有的销售属性值数组类型
-export type spuSaleAttrValueList = SaleAttrValue[];
+export type spuSaleAttrValueList = SaleAttrValue[]
 
 // 销售属性返回data的数据类型
 export interface SaleAttr {
@@ -80,22 +81,24 @@ export interface SaleAttr {
   createTime?: null,
   updateTime?: null,
   spuId?: number,
-  baseSaleAttrId: number,
+  baseSaleAttrId: number | string,
   saleAttrName: string,
-  spuSaleAttrValueList: spuSaleAttrValueList
+  spuSaleAttrValueList: spuSaleAttrValueList,
+  flag?: boolean,
+  saleAttrValue?: string
 }
 
 // 服务器返回的全部数据类型
-export interface SaleAttrResponseData extends ResponseData{
-  data: SaleAttr[];
+export interface SaleAttrResponseData extends ResponseData {
+  data: SaleAttr[]
 }
 
 // 已有全部spu返回的销售属性数据ts类型
 export interface HasSaleAttr {
-  id: number,
+  id: number
   name: string
 }
 // 服务器返回的spu销售属性的data的ts类型
 export interface HasSaleAttrResponseData extends ResponseData {
-  data: HasSaleAttr[];
+  data: HasSaleAttr[]
 }
