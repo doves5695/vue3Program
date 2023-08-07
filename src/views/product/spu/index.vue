@@ -161,7 +161,9 @@ const updateSpu = (row: SpuData) => {
 
 // 子组件当中的自定义事件来给父组件传数据
 const changScene = (num: number) => {
-  scene.value = num
+  scene.value = num;
+  // 再次获取全部的spu属性
+  getHasSpu();
 }
 </script>
 
