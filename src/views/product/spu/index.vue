@@ -5,75 +5,27 @@
     <!-- 下边背景 -->
     <el-card style="margin: 10px 0">
       <div v-show="scene == 0">
-        <el-button
-          type="primary"
-          size="default"
-          icon="Plus"
-          :disabled="categoryStore.c3Id ? false : true"
-          @click="addSpu"
-        >
+        <el-button type="primary" size="default" icon="Plus" :disabled="categoryStore.c3Id ? false : true" @click="addSpu">
           添加SPU
         </el-button>
         <!-- 用来展示已有的spu数据 -->
         <el-table style="margin: 10px 0" border :data="records">
-          <el-table-column
-            label="序号"
-            align="center"
-            width="80px"
-            type="index"
-          ></el-table-column>
-          <el-table-column
-            label="SPU名称"
-            align="center"
-            prop="spuName"
-          ></el-table-column>
-          <el-table-column
-            label="SPU描述"
-            align="center"
-            prop="description"
-            show-overflow-tooltip
-          ></el-table-column>
+          <el-table-column label="序号" align="center" width="80px" type="index"></el-table-column>
+          <el-table-column label="SPU名称" align="center" prop="spuName"></el-table-column>
+          <el-table-column label="SPU描述" align="center" prop="description" show-overflow-tooltip></el-table-column>
           <el-table-column label="操作" align="center">
             <template #="{ row, $index }">
-              <el-button
-                type="primary"
-                size="small"
-                icon="Plus"
-                title="添加sku"
-              ></el-button>
-              <el-button
-                type="warning"
-                size="small"
-                icon="Edit"
-                title="修改商品的spu"
-                @click="updateSpu(row)"
-              ></el-button>
-              <el-button
-                type="info"
-                size="small"
-                icon="view"
-                title="查看sku列表"
-              ></el-button>
-              <el-button
-                type="danger"
-                size="small"
-                icon="Delete"
-                title="删除spu"
-              ></el-button>
+              <el-button type="primary" size="small" icon="Plus" title="添加sku"></el-button>
+              <el-button type="warning" size="small" icon="Edit" title="修改商品的spu" @click="updateSpu(row)"></el-button>
+              <el-button type="info" size="small" icon="view" title="查看sku列表"></el-button>
+              <el-button type="danger" size="small" icon="Delete" title="删除spu"></el-button>
             </template>
           </el-table-column>
         </el-table>
         <!-- 分页器 -->
-        <el-pagination
-          v-model:current-page="pageNo"
-          v-model:page-size="pageSize"
-          :page-sizes="[3, 5, 7, 9]"
-          :background="true"
-          layout="prev, pager, next, jumper, ->, sizes, total"
-          :total="total"
-          @current-change="getHasSpu"
-          @size-change="changSize"
-        />
+        <el-pagination v-model:current-page="pageNo" v-model:page-size="pageSize" :page-sizes="[3, 5, 7, 9]"
+          :background="true" layout="prev, pager, next, jumper, ->, sizes, total" :total="total"
+          @current-change="getHasSpu" @size-change="changSize" />
       </div>
       <SpuForm ref="spu" v-show="scene == 1" @changScene="changScene"></SpuForm>
       <SkuForm v-show="scene == 2"></SkuForm>
@@ -99,6 +51,7 @@ import type {
   Records,
   SpuData,
 } from '@/api/product/spu/type'
+import { el } from 'element-plus/es/locale'
 
 // 使用仓库
 let categoryStore = useCategoryStore()
@@ -151,7 +104,9 @@ const changSize = () => {
 
 // 添加spu的回调
 const addSpu = () => {
-  scene.value = 1
+  scene.value = 1;
+  // 点击当前页面的添加按钮去调用子组件当中的方法, 初始化数据
+  spu.value.initAddSpu(categoryStore.c3Id);
 }
 // 修改spu的回调
 const updateSpu = (row: SpuData) => {
@@ -160,10 +115,17 @@ const updateSpu = (row: SpuData) => {
 }
 
 // 子组件当中的自定义事件来给父组件传数据
-const changScene = (num: number) => {
-  scene.value = num;
-  // 再次获取全部的spu属性
-  getHasSpu();
+const changScene = (obj:any) => {
+  // 根据子组件传递的数据来判断场景
+  scene.value = obj.flag;
+  // 根据是否有id来判断是新增还是更新来判断数据留在那一页
+  if (obj.params == 'update') {
+    // 更新留在当前页面
+    getHasSpu(pageNo.value);
+  } else {
+    // 新增在第一页
+    getHasSpu();
+  }
 }
 </script>
 

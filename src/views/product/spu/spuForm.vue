@@ -24,8 +24,8 @@
     </el-form-item>
     <el-form-item label="spu销售属性">
       <el-select :placeholder="unSelectSaleAttr.length
-        ? `你还有${unSelectSaleAttr.length}个可以添加`
-        : '无'
+          ? `你还有${unSelectSaleAttr.length}个可以添加`
+          : '无'
         " v-model="SaleAttrIdAndValue">
         <el-option :value="`${item.id}:${item.name}`" v-for="(item, index) in unSelectSaleAttr" :label="item.name"
           :key="item.id"></el-option>
@@ -56,7 +56,9 @@
       </el-table>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" size="default" @click="save" :disabled="saleAttr.length>0?false:true">保存</el-button>
+      <el-button type="primary" size="default" @click="save" :disabled="saleAttr.length > 0 ? false : true">
+        保存
+      </el-button>
       <el-button type="primary" size="default" @click="cancel">取消</el-button>
     </el-form-item>
   </el-form>
@@ -71,7 +73,7 @@ import {
   reqSpuImageList,
   reqSpuHasSaleAttr,
   reqAllSaleAttr,
-  reqAddOrUpdateSpu
+  reqAddOrUpdateSpu,
 } from '@/api/product/spu/index'
 
 // 引入数据类型
@@ -91,7 +93,7 @@ import { ElMessage } from 'element-plus'
 // 设置一个自定义事件来与父组件传递信息控制场景变化
 let $emits = defineEmits(['changScene'])
 const cancel = () => {
-  $emits('changScene', 0)
+  $emits('changScene', {flag: 0, params: 'update'})
 }
 
 // 存储已有的SPU这些数据
@@ -249,7 +251,7 @@ const toLook = (row: SaleAttr) => {
   row.flag = false
 }
 
-// 
+// 整理数据并且发送请求,修改或新增销售属性
 const save = async () => {
   // 整理照片墙和销售属性的参数
   // 1.整理照片墙(通过map方法来修改参数)
@@ -258,27 +260,52 @@ const save = async () => {
       imgName: item.name,
       imgUrl: (item.response && item.response.data) || item.url,
     }
-  });
+  })
   // 2.整理销售属性数据
-  SpuParams.value.spuSaleAttrList = saleAttr.value;
+  SpuParams.value.spuSaleAttrList = saleAttr.value
   // 发送请求: 有两种可能可能是修改可能是新增
-  let result = await reqAddOrUpdateSpu(SpuParams.value);
+  let result = await reqAddOrUpdateSpu(SpuParams.value)
   if (result.code == 200) {
     ElMessage({
       type: 'success',
-      message: SpuParams.value.id ? '更新成功' : '添加成功'
-    });
+      message: SpuParams.value.id ? '更新成功' : '添加成功',
+    })
     // 如果成功通过自定义事件来通知父组件切换场景
-    $emits('changScene', 0);
+    $emits('changScene', {flag: 0, params: SpuParams.value.id?'update':'add'});
   } else {
     ElMessage({
       type: 'error',
-      message: SpuParams.value.id ? '更新失败' : '添加失败'
-    });
+      message: SpuParams.value.id ? '更新失败' : '添加失败',
+    })
   }
 }
 
-defineExpose({ initHasSpuData })
+// 添加一个新的spu
+const initAddSpu = async (c3Id: number | string) => {
+  // 清空上一次数据
+  Object.assign(SpuParams.value, {
+    category3Id: '', //收集三级分类的ID
+    spuName: '', //SPU的名字
+    description: '', //SPU的描述
+    tmId: '', //品牌的ID
+    spuImageList: [],
+    spuSaleAttrList: [],
+  });
+  // 清空照片墙和销售属性
+  imgList.value = [];
+  saleAttr.value = [];
+  SaleAttrIdAndValue.value = '';
+  // 收集c3ID
+  SpuParams.value.category3Id = c3Id;
+  // 重新发请求获取所有的品牌数据
+  let result: AllTrademark = await reqAllTrademark();
+  // 再发请求获取对应的销售属性下拉列表
+  let result1: HasSaleAttrResponseData = await reqAllSaleAttr();
+  // 发送请求后存储所有数据
+  AllTrademark.value = result.data;
+  allSaleAttr.value = result1.data;
+}
+defineExpose({ initHasSpuData, initAddSpu })
 </script>
 
 <style scoped lang="scss"></style>

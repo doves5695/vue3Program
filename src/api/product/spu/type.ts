@@ -62,14 +62,14 @@ export interface SpuHasImg extends ResponseData {
 
 // 已有的销售属性值对象的ts类型
 export interface SaleAttrValue {
-  id?: number,
-  createTime?: null,
-  updateTime?: null,
-  spuId?: number,
-  baseSaleAttrId: number | string,
-  saleAttrValueName: string,
-  saleAttrName?: string,
-  isChecked?: null,
+  id?: number
+  createTime?: null
+  updateTime?: null
+  spuId?: number
+  baseSaleAttrId: number | string
+  saleAttrValueName: string
+  saleAttrName?: string
+  isChecked?: null
 }
 
 // 存储已有的销售属性值数组类型
