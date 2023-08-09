@@ -5,7 +5,8 @@
     <!-- 下边背景 -->
     <el-card style="margin: 10px 0">
       <div v-show="scene == 0">
-        <el-button type="primary" size="default" icon="Plus" :disabled="categoryStore.c3Id ? false : true" @click="addSpu">
+        <el-button type="primary" size="default" icon="Plus" :disabled="categoryStore.c3Id ? false : true"
+          @click="addSpu">
           添加SPU
         </el-button>
         <!-- 用来展示已有的spu数据 -->
@@ -15,10 +16,10 @@
           <el-table-column label="SPU描述" align="center" prop="description" show-overflow-tooltip></el-table-column>
           <el-table-column label="操作" align="center">
             <template #="{ row, $index }">
-              <el-button type="primary" size="small" icon="Plus" title="添加sku"></el-button>
-              <el-button type="warning" size="small" icon="Edit" title="修改商品的spu" @click="updateSpu(row)"></el-button>
-              <el-button type="info" size="small" icon="view" title="查看sku列表"></el-button>
-              <el-button type="danger" size="small" icon="Delete" title="删除spu"></el-button>
+              <el-button type="primary" size="small" icon="Plus" title="添加SKU" @click="addSku"></el-button>
+              <el-button type="warning" size="small" icon="Edit" title="修改商品的SPU" @click="updateSpu(row)"></el-button>
+              <el-button type="info" size="small" icon="view" title="查看SKU列表"></el-button>
+              <el-button type="danger" size="small" icon="Delete" title="删除SKU"></el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -28,7 +29,7 @@
           @current-change="getHasSpu" @size-change="changSize" />
       </div>
       <SpuForm ref="spu" v-show="scene == 1" @changScene="changScene"></SpuForm>
-      <SkuForm v-show="scene == 2"></SkuForm>
+      <SkuForm v-show="scene == 2"  @changScene="changScene"></SkuForm>
     </el-card>
   </div>
 </template>
@@ -104,9 +105,9 @@ const changSize = () => {
 
 // 添加spu的回调
 const addSpu = () => {
-  scene.value = 1;
+  scene.value = 1
   // 点击当前页面的添加按钮去调用子组件当中的方法, 初始化数据
-  spu.value.initAddSpu(categoryStore.c3Id);
+  spu.value.initAddSpu(categoryStore.c3Id)
 }
 // 修改spu的回调
 const updateSpu = (row: SpuData) => {
@@ -115,17 +116,23 @@ const updateSpu = (row: SpuData) => {
 }
 
 // 子组件当中的自定义事件来给父组件传数据
-const changScene = (obj:any) => {
+const changScene = (obj: any) => {
   // 根据子组件传递的数据来判断场景
-  scene.value = obj.flag;
+  scene.value = obj.flag
   // 根据是否有id来判断是新增还是更新来判断数据留在那一页
   if (obj.params == 'update') {
     // 更新留在当前页面
-    getHasSpu(pageNo.value);
+    getHasSpu(pageNo.value)
   } else {
     // 新增在第一页
-    getHasSpu();
+    getHasSpu()
   }
+}
+
+
+// 添加sku按钮回调
+const addSku = () => {
+  scene.value = 2
 }
 </script>
 
