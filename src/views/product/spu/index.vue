@@ -5,31 +5,79 @@
     <!-- 下边背景 -->
     <el-card style="margin: 10px 0">
       <div v-show="scene == 0">
-        <el-button type="primary" size="default" icon="Plus" :disabled="categoryStore.c3Id ? false : true"
-          @click="addSpu">
+        <el-button
+          type="primary"
+          size="default"
+          icon="Plus"
+          :disabled="categoryStore.c3Id ? false : true"
+          @click="addSpu"
+        >
           添加SPU
         </el-button>
         <!-- 用来展示已有的spu数据 -->
         <el-table style="margin: 10px 0" border :data="records">
-          <el-table-column label="序号" align="center" width="80px" type="index"></el-table-column>
-          <el-table-column label="SPU名称" align="center" prop="spuName"></el-table-column>
-          <el-table-column label="SPU描述" align="center" prop="description" show-overflow-tooltip></el-table-column>
+          <el-table-column
+            label="序号"
+            align="center"
+            width="80px"
+            type="index"
+          ></el-table-column>
+          <el-table-column
+            label="SPU名称"
+            align="center"
+            prop="spuName"
+          ></el-table-column>
+          <el-table-column
+            label="SPU描述"
+            align="center"
+            prop="description"
+            show-overflow-tooltip
+          ></el-table-column>
           <el-table-column label="操作" align="center">
             <template #="{ row, $index }">
-              <el-button type="primary" size="small" icon="Plus" title="添加SKU" @click="addSku"></el-button>
-              <el-button type="warning" size="small" icon="Edit" title="修改商品的SPU" @click="updateSpu(row)"></el-button>
-              <el-button type="info" size="small" icon="view" title="查看SKU列表"></el-button>
-              <el-button type="danger" size="small" icon="Delete" title="删除SKU"></el-button>
+              <el-button
+                type="primary"
+                size="small"
+                icon="Plus"
+                title="添加SKU"
+                @click="addSku(row)"
+              ></el-button>
+              <el-button
+                type="warning"
+                size="small"
+                icon="Edit"
+                title="修改商品的SPU"
+                @click="updateSpu(row)"
+              ></el-button>
+              <el-button
+                type="info"
+                size="small"
+                icon="view"
+                title="查看SKU列表"
+              ></el-button>
+              <el-button
+                type="danger"
+                size="small"
+                icon="Delete"
+                title="删除SKU"
+              ></el-button>
             </template>
           </el-table-column>
         </el-table>
         <!-- 分页器 -->
-        <el-pagination v-model:current-page="pageNo" v-model:page-size="pageSize" :page-sizes="[3, 5, 7, 9]"
-          :background="true" layout="prev, pager, next, jumper, ->, sizes, total" :total="total"
-          @current-change="getHasSpu" @size-change="changSize" />
+        <el-pagination
+          v-model:current-page="pageNo"
+          v-model:page-size="pageSize"
+          :page-sizes="[3, 5, 7, 9]"
+          :background="true"
+          layout="prev, pager, next, jumper, ->, sizes, total"
+          :total="total"
+          @current-change="getHasSpu"
+          @size-change="changSize"
+        />
       </div>
       <SpuForm ref="spu" v-show="scene == 1" @changScene="changScene"></SpuForm>
-      <SkuForm v-show="scene == 2"  @changScene="changScene"></SkuForm>
+      <SkuForm ref="sku" v-show="scene == 2" @changScene="changScene"></SkuForm>
     </el-card>
   </div>
 </template>
@@ -72,6 +120,7 @@ let records = ref<Records>([])
 
 // 获取子组件实例
 let spu = ref<any>()
+let sku = ref<any>()
 
 // 用此方法监听c3Id的变化
 watch(
@@ -129,10 +178,11 @@ const changScene = (obj: any) => {
   }
 }
 
-
 // 添加sku按钮回调
-const addSku = () => {
-  scene.value = 2
+const addSku = (row: SpuData) => {
+  scene.value = 2;
+  sku.value.initSkuData(categoryStore.c1Id, categoryStore.c2Id, row);
+  console.log(row)
 }
 </script>
 

@@ -9,6 +9,7 @@ import type {
   SpuHasImg,
   SaleAttrResponseData,
   HasSaleAttrResponseData,
+  SkuData
 } from './type'
 enum API {
   // 获取接口当中已有的spu数据
@@ -25,6 +26,8 @@ enum API {
   ADDSPU_URL = '/admin/product/saveSpuInfo',
   // 更新一个新的spu
   UPDATE_URL = '/admin/product/updateSpuInfo',
+  // 追加一个SKU的接口地址
+  ADDSKU_URL = '/admin/product/saveSkuInfo',
 }
 // 获取某一个已有的三级分类下spu数据
 export const reqHasSpu = (
@@ -61,3 +64,6 @@ export const reqAddOrUpdateSpu = (data: SpuData) => {
     return request.post<any, any>(API.ADDSPU_URL, data)
   }
 }
+
+// 添加sku请求的方法
+export const reqAddSku = (data: SkuData) => request.post<any, any>(API.ADDSKU_URL, data);
