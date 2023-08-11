@@ -124,5 +124,4 @@ export interface SkuData {
   skuAttrValueList?: Attr[]
   skuSaleAttrValueList?: saleArr[]
   skuDefaultImg: string //sku图片地址
-
 }

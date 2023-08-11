@@ -180,8 +180,8 @@ const changScene = (obj: any) => {
 
 // 添加sku按钮回调
 const addSku = (row: SpuData) => {
-  scene.value = 2;
-  sku.value.initSkuData(categoryStore.c1Id, categoryStore.c2Id, row);
+  scene.value = 2
+  sku.value.initSkuData(categoryStore.c1Id, categoryStore.c2Id, row)
   console.log(row)
 }
 </script>

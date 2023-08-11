@@ -9,7 +9,7 @@ import type {
   SpuHasImg,
   SaleAttrResponseData,
   HasSaleAttrResponseData,
-  SkuData
+  SkuData,
 } from './type'
 enum API {
   // 获取接口当中已有的spu数据
@@ -66,4 +66,5 @@ export const reqAddOrUpdateSpu = (data: SpuData) => {
 }
 
 // 添加sku请求的方法
-export const reqAddSku = (data: SkuData) => request.post<any, any>(API.ADDSKU_URL, data);
+export const reqAddSku = (data: SkuData) =>
+  request.post<any, any>(API.ADDSKU_URL, data)
