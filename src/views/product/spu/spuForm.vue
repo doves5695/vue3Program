@@ -1,137 +1,62 @@
 <template>
   <el-form label-width="100px">
     <el-form-item label="spu名称">
-      <el-input
-        placeholder="请输入spu名称"
-        v-model="SpuParams.spuName"
-      ></el-input>
+      <el-input placeholder="请输入spu名称" v-model="SpuParams.spuName"></el-input>
     </el-form-item>
     <el-form-item label="spu品牌">
       <el-select v-model="SpuParams.tmId">
-        <el-option
-          :label="item.tmName"
-          v-for="(item, index) in AllTrademark"
-          :key="item.id"
-          :value="item.id"
-        ></el-option>
+        <el-option :label="item.tmName" v-for="(item, index) in AllTrademark" :key="item.id" :value="item.id"></el-option>
       </el-select>
     </el-form-item>
     <el-form-item label="spu描述">
-      <el-input
-        type="textarea"
-        placeholder="请你输入spu描述"
-        v-model="SpuParams.description"
-      ></el-input>
+      <el-input type="textarea" placeholder="请你输入spu描述" v-model="SpuParams.description"></el-input>
     </el-form-item>
     <el-form-item label="spu照片">
-      <el-upload
-        v-model:file-list="imgList"
-        action="/api/admin/product/fileUpload"
-        list-type="picture-card"
-        :on-preview="handlePictureCardPreview"
-        :on-remove="handleRemove"
-        :before-upload="handleUpload"
-      >
+      <el-upload v-model:file-list="imgList" action="/api/admin/product/fileUpload" list-type="picture-card"
+        :on-preview="handlePictureCardPreview" :on-remove="handleRemove" :before-upload="handleUpload">
         <el-icon>
           <Plus />
         </el-icon>
       </el-upload>
       <el-dialog v-model="dialogVisible">
-        <img
-          w-full
-          :src="dialogImageUrl"
-          alt="Preview Image"
-          style="width: 100%; height: 100%"
-        />
+        <img w-full :src="dialogImageUrl" alt="Preview Image" style="width: 100%; height: 100%" />
       </el-dialog>
     </el-form-item>
     <el-form-item label="spu销售属性">
-      <el-select
-        :placeholder="
-          unSelectSaleAttr.length
-            ? `你还有${unSelectSaleAttr.length}个可以添加`
-            : '无'
-        "
-        v-model="SaleAttrIdAndValue"
-      >
-        <el-option
-          :value="`${item.id}:${item.name}`"
-          v-for="(item, index) in unSelectSaleAttr"
-          :label="item.name"
-          :key="item.id"
-        ></el-option>
+      <el-select :placeholder="unSelectSaleAttr.length
+          ? `你还有${unSelectSaleAttr.length}个可以添加`
+          : '无'
+        " v-model="SaleAttrIdAndValue">
+        <el-option :value="`${item.id}:${item.name}`" v-for="(item, index) in unSelectSaleAttr" :label="item.name"
+          :key="item.id"></el-option>
       </el-select>
-      <el-button
-        style="margin-left: 10px"
-        type="primary"
-        size="default"
-        icon="Plus"
-        :disabled="SaleAttrIdAndValue ? false : true"
-        @click="addSaleAttr"
-      >
+      <el-button style="margin-left: 10px" type="primary" size="default" icon="Plus"
+        :disabled="SaleAttrIdAndValue ? false : true" @click="addSaleAttr">
         添加属性
       </el-button>
       <el-table border style="margin: 10px 0" :data="saleAttr">
-        <el-table-column
-          label="序号"
-          type="index"
-          width="80px"
-          align="center"
-        ></el-table-column>
-        <el-table-column
-          label="销售属性名"
-          width="120px"
-          align="center"
-          prop="saleAttrName"
-        ></el-table-column>
+        <el-table-column label="序号" type="index" width="80px" align="center"></el-table-column>
+        <el-table-column label="销售属性名" width="120px" align="center" prop="saleAttrName"></el-table-column>
         <el-table-column label="销售属性值">
           <template #="{ row, $index }">
-            <el-tag
-              v-for="(item, index) in row.spuSaleAttrValueList"
-              :key="row.id"
-              class="mx-1"
-              closable
-              style="margin: 0 5px"
-              @close="row.spuSaleAttrValueList.splice(index, 1)"
-            >
+            <el-tag v-for="(item, index) in row.spuSaleAttrValueList" :key="row.id" class="mx-1" closable
+              style="margin: 0 5px" @close="row.spuSaleAttrValueList.splice(index, 1)">
               {{ item.saleAttrValueName }}
             </el-tag>
-            <el-input
-              v-model="row.saleAttrValue"
-              v-if="row.flag == true"
-              placeholder="请你输入属性值"
-              size="small"
-              style="width: 100px"
-              @blur="toLook(row)"
-            ></el-input>
-            <el-button
-              v-else
-              type="success"
-              size="small"
-              icon="Plus"
-              @click="toEdit(row)"
-            ></el-button>
+            <el-input v-model="row.saleAttrValue" v-if="row.flag == true" placeholder="请你输入属性值" size="small"
+              style="width: 100px" @blur="toLook(row)"></el-input>
+            <el-button v-else type="success" size="small" icon="Plus" @click="toEdit(row)"></el-button>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="120px" align="center">
           <template #="{ row, $index }">
-            <el-button
-              type="primary"
-              size="small"
-              icon="Delete"
-              @click="saleAttr.splice($index, 1)"
-            ></el-button>
+            <el-button type="primary" size="small" icon="Delete" @click="saleAttr.splice($index, 1)"></el-button>
           </template>
         </el-table-column>
       </el-table>
     </el-form-item>
     <el-form-item>
-      <el-button
-        type="primary"
-        size="default"
-        @click="save"
-        :disabled="saleAttr.length > 0 ? false : true"
-      >
+      <el-button type="primary" size="default" @click="save" :disabled="saleAttr.length > 0 ? false : true">
         保存
       </el-button>
       <el-button type="primary" size="default" @click="cancel">取消</el-button>
@@ -234,7 +159,7 @@ const handlePictureCardPreview = (file: any) => {
 }
 
 // 照片墙删除照片时候触发的钩子函数
-const handleRemove = () => {}
+const handleRemove = () => { }
 
 // 照片墙上传照片之前的限制条件
 const handleUpload = (file: any) => {
