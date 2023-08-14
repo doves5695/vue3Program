@@ -6,13 +6,13 @@ export interface ResponseData {
 }
 
 export interface Attr {
-  id? :number,
+  id?: number
   attrId: number | string //平台属性的ID
   valueId: number | string //属性值的ID
 }
 
 export interface saleArr {
-  id? :number,
+  id?: number
   saleAttrId: number | string //属性ID
   saleAttrValueId: number | string //属性值的ID
 }
@@ -29,27 +29,27 @@ export interface SkuData {
   skuSaleAttrValueList?: saleArr[]
   skuDefaultImg?: string //sku图片地址
   isSale?: number //控制商品上下架状态
-  id?: number// 商品skuid
+  id?: number // 商品skuid
 }
 
 // 获取sku接口返回的数据类型
 export interface SkuResponseData extends ResponseData {
   data: {
-    records: SkuData[],
-    total: number,
-    size: number,
-    current: number,
-    orders: [],
-    optimizeCountSql: boolean,
-    hitCount: boolean,
-    countId: null,
-    maxLimit: null,
-    searchCount: boolean,
+    records: SkuData[]
+    total: number
+    size: number
+    current: number
+    orders: []
+    optimizeCountSql: boolean
+    hitCount: boolean
+    countId: null
+    maxLimit: null
+    searchCount: boolean
     pages: number
   }
 }
 
 // 获取sku商品详情接口的ts类型
 export interface SkuInfoData extends ResponseData {
-  data: SkuData;
+  data: SkuData
 }
