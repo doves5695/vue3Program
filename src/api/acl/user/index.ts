@@ -20,6 +20,6 @@ export const reqAddOrUpdateUser = (data: User) => {
   if (data.id) {
     return request.put<any, any>(API.UPDATEUSER_URL, data)
   } else {
-    return request.post<any,any>(API.ADDUSER_URL, data);
+    return request.post<any, any>(API.ADDUSER_URL, data)
   }
 }
