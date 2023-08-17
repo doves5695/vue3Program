@@ -17,17 +17,52 @@
       <el-table-column type="selection" align="center"></el-table-column>
       <el-table-column label="#" align="center" type="index"></el-table-column>
       <el-table-column label="id" align="center" prop="id"></el-table-column>
-      <el-table-column label="用户名字" align="center" prop="username" show-overflow-tooltip></el-table-column>
-      <el-table-column label="用户名称" align="center" prop="name" show-overflow-tooltip></el-table-column>
-      <el-table-column label="用户角色" align="center" prop="roleName" show-overflow-tooltip></el-table-column>
-      <el-table-column label="创建时间" align="center" prop="createTime" show-overflow-tooltip></el-table-column>
-      <el-table-column label="更新时间" align="center" prop="updateTime" show-overflow-tooltip></el-table-column>
+      <el-table-column
+        label="用户名字"
+        align="center"
+        prop="username"
+        show-overflow-tooltip
+      ></el-table-column>
+      <el-table-column
+        label="用户名称"
+        align="center"
+        prop="name"
+        show-overflow-tooltip
+      ></el-table-column>
+      <el-table-column
+        label="用户角色"
+        align="center"
+        prop="roleName"
+        show-overflow-tooltip
+      ></el-table-column>
+      <el-table-column
+        label="创建时间"
+        align="center"
+        prop="createTime"
+        show-overflow-tooltip
+      ></el-table-column>
+      <el-table-column
+        label="更新时间"
+        align="center"
+        prop="updateTime"
+        show-overflow-tooltip
+      ></el-table-column>
       <el-table-column label="操作" align="center" width="270px">
         <template #="{ row, $index }">
-          <el-button type="primary" size="small" icon="User" @click="setRole(row)">
+          <el-button
+            type="primary"
+            size="small"
+            icon="User"
+            @click="setRole(row)"
+          >
             分配角色
           </el-button>
-          <el-button type="primary" size="small" icon="Edit" @click="updateUser(row)">
+          <el-button
+            type="primary"
+            size="small"
+            icon="Edit"
+            @click="updateUser(row)"
+          >
             编辑
           </el-button>
           <el-button type="primary" size="small" icon="Delete">删除</el-button>
@@ -35,9 +70,16 @@
       </el-table-column>
     </el-table>
     <!-- 分页器 -->
-    <el-pagination v-model:current-page="pageNo" v-model:page-size="pageSize" :page-sizes="[5, 7, 9, 11]"
-      :background="true" layout="prev, pager, next, jumper,->,sizes, total" :total="total" @current-change="getHasUser"
-      @size-change="handler" />
+    <el-pagination
+      v-model:current-page="pageNo"
+      v-model:page-size="pageSize"
+      :page-sizes="[5, 7, 9, 11]"
+      :background="true"
+      layout="prev, pager, next, jumper,->,sizes, total"
+      :total="total"
+      @current-change="getHasUser"
+      @size-change="handler"
+    />
   </el-card>
   <!-- 抽屉结构 -->
   <el-drawer v-model="drawer">
@@ -49,13 +91,22 @@
     <template #default>
       <el-form :model="userParams" :rules="rules" ref="formRef">
         <el-form-item label="用户姓名" prop="username">
-          <el-input placeholder="请填写用户姓名" v-model="userParams.username"></el-input>
+          <el-input
+            placeholder="请填写用户姓名"
+            v-model="userParams.username"
+          ></el-input>
         </el-form-item>
         <el-form-item label="用户昵称" prop="name">
-          <el-input placeholder="请填写用户昵称" v-model="userParams.name"></el-input>
+          <el-input
+            placeholder="请填写用户昵称"
+            v-model="userParams.name"
+          ></el-input>
         </el-form-item>
         <el-form-item label="用户密码" prop="password" v-if="!userParams.id">
-          <el-input placeholder="请填写用户密码" v-model="userParams.password"></el-input>
+          <el-input
+            placeholder="请填写用户密码"
+            v-model="userParams.password"
+          ></el-input>
         </el-form-item>
       </el-form>
     </template>
@@ -77,9 +128,24 @@
           <el-input v-model="userParams.username" :disabled="true"></el-input>
         </el-form-item>
         <el-form-item label="职位列表">
-          <el-checkbox v-model="checkAll" :indeterminate="indeterminate" @change="handleCheckAllChange">全选</el-checkbox>
-          <el-checkbox-group v-model="userRole"  @change="handleCheckedCitiesChange">
-            <el-checkbox v-for="(role, index) in allRole" :key="index" :label="role">{{role}}</el-checkbox>
+          <el-checkbox
+            v-model="checkAll"
+            :indeterminate="indeterminate"
+            @change="handleCheckAllChange"
+          >
+            全选
+          </el-checkbox>
+          <el-checkbox-group
+            v-model="userRole"
+            @change="handleCheckedCitiesChange"
+          >
+            <el-checkbox
+              v-for="(role, index) in allRole"
+              :key="index"
+              :label="role"
+            >
+              {{ role.roleName }}
+            </el-checkbox>
           </el-checkbox-group>
         </el-form-item>
       </el-form>
@@ -95,8 +161,8 @@
 
 <script setup lang="ts">
 import { ref, onMounted, reactive, nextTick } from 'vue'
-import { reqUserInfo, reqAddOrUpdateUser } from '@/api/acl/user/index'
-import type { UserResponseData, Records, User } from '@/api/acl/user/type'
+import { reqUserInfo, reqAddOrUpdateUser, reqAllRole } from '@/api/acl/user/index'
+import type { UserResponseData, Records, User, AllRoleResponseData,  AllRole } from '@/api/acl/user/type'
 import { ElMessage } from 'element-plus'
 // 当前页码
 let pageNo = ref<number>(1)
@@ -115,7 +181,10 @@ let userParams = reactive<User>({
   username: '',
   name: '',
   password: '',
-})
+});
+// 存储职位数据用于复选框
+let allRole = ref<AllRole>([]);
+let userRole = ref<AllRole>([]);
 // 获取form表单实例
 let formRef = ref<any>()
 
@@ -243,30 +312,55 @@ const rules = {
 }
 
 // 分配角色按钮的回调
-const setRole = (row: User) => {
-  drawer1.value = true;
-  Object.assign(userParams, row);
+const setRole = async (row: User) => {
+  Object.assign(userParams, row)
+  let result: AllRoleResponseData = await reqAllRole((userParams.id as number));
+  if (result.code == 200) {
+    // 存储数据
+    allRole.value = result.data.allRolesList;
+    userRole.value = result.data.assignRoles;
+    drawer1.value = true;
+  }
 }
 
-// 测试复选框代码 
-// 全选复选框收集数据
+// // 测试复选框代码
+// // 全选复选框收集数据
+// let checkAll = ref<boolean>(false)
+// // 全部职位
+// let allRole = ref(['前端', '后端', '销售', '运营', '维护'])
+// // 用户已有职位
+// let userRole = ref(['前端', '后端'])
+// let indeterminate = ref<boolean>(true)
+// // 当全选复选框发生变化的时候触发的函数
+// const handleCheckAllChange = (val: boolean) => {
+//   userRole.value = val ? allRole.value : []
+//   indeterminate.value = false
+// }
+// // 底部复选框变化事件
+// const handleCheckedCitiesChange = (value: string[]) => {
+//   const checkoutCount = value.length
+//   checkAll.value = checkoutCount === allRole.value.length
+//   indeterminate.value =
+//     checkoutCount > 0 && checkoutCount < allRole.value.length
+// }
+
+// 全选收集
 let checkAll = ref<boolean>(false);
-// 全部职位
-let allRole = ref(['前端', '后端', '销售', '运营', '维护']);
-// 用户已有职位
-let userRole = ref(['前端', '后端']);
+// 不确定事件
 let indeterminate = ref<boolean>(true);
-// 当全选复选框发生变化的时候触发的函数
+// 全选事件
 const handleCheckAllChange = (val: boolean) => {
-  userRole.value = val ? allRole.value : [];
+  userRole.value = val? allRole.value : [];
   indeterminate.value = false;
 }
-// 底部复选框变化事件
+// 底部单选事件
 const handleCheckedCitiesChange = (value: string[]) => {
-  const checkoutCount = value.length;
-  checkAll.value = checkoutCount === allRole.value.length;
-  indeterminate.value = checkoutCount > 0 && checkoutCount < allRole.value.length;
+  // 当底部的等于全部的那么全选
+  checkAll.value = value.length === allRole.value.length;
+  // 当不相等的时候, 不确定性为真
+  indeterminate.value = value.length !== allRole.value.length;
 }
+
 </script>
 
 <style scoped lang="scss">
