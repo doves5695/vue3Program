@@ -152,8 +152,8 @@
     </template>
     <template #footer>
       <div style="flex: auto">
-        <el-button>取消</el-button>
-        <el-button type="primary">确定</el-button>
+        <el-button @click="drawer1=false">取消</el-button>
+        <el-button @click="confirmClick" type="primary">确定</el-button>
       </div>
     </template>
   </el-drawer>
@@ -161,8 +161,20 @@
 
 <script setup lang="ts">
 import { ref, onMounted, reactive, nextTick } from 'vue'
-import { reqUserInfo, reqAddOrUpdateUser, reqAllRole } from '@/api/acl/user/index'
-import type { UserResponseData, Records, User, AllRoleResponseData,  AllRole } from '@/api/acl/user/type'
+import {
+  reqUserInfo,
+  reqAddOrUpdateUser,
+  reqAllRole,
+  reqSetUserRole
+} from '@/api/acl/user/index'
+import type {
+  UserResponseData,
+  Records,
+  User,
+  AllRoleResponseData,
+  AllRole,
+  SetRoleData
+} from '@/api/acl/user/type'
 import { ElMessage } from 'element-plus'
 // 当前页码
 let pageNo = ref<number>(1)
@@ -181,10 +193,10 @@ let userParams = reactive<User>({
   username: '',
   name: '',
   password: '',
-});
+})
 // 存储职位数据用于复选框
-let allRole = ref<AllRole>([]);
-let userRole = ref<AllRole>([]);
+let allRole = ref<AllRole>([])
+let userRole = ref<AllRole>([])
 // 获取form表单实例
 let formRef = ref<any>()
 
@@ -314,12 +326,12 @@ const rules = {
 // 分配角色按钮的回调
 const setRole = async (row: User) => {
   Object.assign(userParams, row)
-  let result: AllRoleResponseData = await reqAllRole((userParams.id as number));
+  let result: AllRoleResponseData = await reqAllRole(userParams.id as number)
   if (result.code == 200) {
     // 存储数据
-    allRole.value = result.data.allRolesList;
-    userRole.value = result.data.assignRoles;
-    drawer1.value = true;
+    allRole.value = result.data.allRolesList
+    userRole.value = result.data.assignRoles
+    drawer1.value = true
   }
 }
 
@@ -345,20 +357,42 @@ const setRole = async (row: User) => {
 // }
 
 // 全选收集
-let checkAll = ref<boolean>(false);
+let checkAll = ref<boolean>(false)
 // 不确定事件
-let indeterminate = ref<boolean>(true);
+let indeterminate = ref<boolean>(true)
 // 全选事件
 const handleCheckAllChange = (val: boolean) => {
-  userRole.value = val? allRole.value : [];
-  indeterminate.value = false;
+  userRole.value = val ? allRole.value : []
+  indeterminate.value = false
 }
 // 底部单选事件
 const handleCheckedCitiesChange = (value: string[]) => {
   // 当底部的等于全部的那么全选
-  checkAll.value = value.length === allRole.value.length;
+  checkAll.value = value.length === allRole.value.length
   // 当不相等的时候, 不确定性为真
-  indeterminate.value = value.length !== allRole.value.length;
+  indeterminate.value = value.length !== allRole.value.length
+}
+
+
+// 分配职位按钮的回调
+const confirmClick = async () => { 
+  // 先收集数据
+  let data: SetRoleData = {
+    userId: (userParams.id as number),
+    roleIdList: userRole.value.map(item => {
+      return (item.id as number);
+    })
+  }
+  // 分配用户的职位
+  let result: any = await reqSetUserRole(data);
+  if (result.code == 200) {
+    // 提示信息
+    ElMessage({type:'success', message: '分配职务成功'});
+    // 关闭抽屉
+    drawer1.value = false;
+    // 获取更新完毕的用户信息
+    getHasUser(pageNo.value);
+  }
 }
 
 </script>
