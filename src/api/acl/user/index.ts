@@ -1,6 +1,11 @@
 // 用户管理模块的接口
 import request from '@/utils/request'
-import type { UserResponseData, User, AllRoleResponseData, SetRoleData } from './type'
+import type {
+  UserResponseData,
+  User,
+  AllRoleResponseData,
+  SetRoleData,
+} from './type'
 // 枚举接口地址
 enum API {
   // 获取全部已有的用户账号信息
@@ -13,10 +18,14 @@ enum API {
   ALLROLEURL = 'admin/acl/user/toAssign/',
   // 给已有的用户分配角色接口
   SETROLE_URL = 'admin/acl/user/doAssignRole',
+  // 删除某一个账号信息
+  DELETEUSER_URL = 'admin/acl/user/remove/',
+  // 批量删除
+  DELETEALLUSER_URL = 'admin/acl/user/batchRemove',
 }
 // 获取用户账号信息的接口
-export const reqUserInfo = (page: number, limit: number) =>
-  request.get<any, UserResponseData>(API.ALLUSER_URL + `${page}/${limit}`)
+export const reqUserInfo = (page: number, limit: number, username: string) =>
+  request.get<any, UserResponseData>(API.ALLUSER_URL + `${page}/${limit}/?username=${username}`)
 
 // 添加用户或者更新已有用户的接口
 export const reqAddOrUpdateUser = (data: User) => {
@@ -33,4 +42,11 @@ export const reqAllRole = (userId: number) =>
   request.get<any, AllRoleResponseData>(API.ALLROLEURL + userId)
 
 // 分配职位
-export const reqSetUserRole = (data: SetRoleData) => request.post<any,any>(API.SETROLE_URL, data);
+export const reqSetUserRole = (data: SetRoleData) =>
+  request.post<any, any>(API.SETROLE_URL, data)
+
+// 删除某一个账号的信息
+export const reqRemoveUser = (userId: number) => request.delete<any,any>(API.DELETEUSER_URL+userId)
+
+// 批量删除
+export const reqSelectUser = (idList: number[]) => request.delete<any,any>(API.DELETEALLUSER_URL, {data: idList})

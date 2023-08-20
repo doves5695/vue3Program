@@ -51,6 +51,6 @@ export interface AllRoleResponseData extends ResponseData {
 
 // 给用户分配职位接口携带参数的ts类型
 export interface SetRoleData {
-  "roleIdList": number[],
-  "userId": number
+  roleIdList: number[]
+  userId: number
 }
