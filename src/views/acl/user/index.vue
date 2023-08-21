@@ -5,43 +5,109 @@
         <el-input placeholder="请输入用户名" v-model="keyword"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" :disabled="keyword?false:true" @click="search">搜索</el-button>
+        <el-button
+          type="primary"
+          :disabled="keyword ? false : true"
+          @click="search"
+        >
+          搜索
+        </el-button>
         <el-button type="primary" @click="reset">重置</el-button>
       </el-form-item>
     </el-form>
   </el-card>
   <el-card style="margin: 10px 0">
     <el-button type="primary" icon="Plus" @click="addUser">添加</el-button>
-    <el-button type="danger" icon="Delete" :disabled="selectIdArr?.length?false:true" @click="deleteSelectUser">批量删除</el-button>
-    <el-table style="margin: 10px 0" border :data="userArr" @selection-change="selectChange">
+    <el-button
+      type="danger"
+      icon="Delete"
+      :disabled="selectIdArr?.length ? false : true"
+      @click="deleteSelectUser"
+    >
+      批量删除
+    </el-button>
+    <el-table
+      style="margin: 10px 0"
+      border
+      :data="userArr"
+      @selection-change="selectChange"
+    >
       <el-table-column type="selection" align="center"></el-table-column>
       <el-table-column label="#" align="center" type="index"></el-table-column>
       <el-table-column label="id" align="center" prop="id"></el-table-column>
-      <el-table-column label="用户名字" align="center" prop="username" show-overflow-tooltip></el-table-column>
-      <el-table-column label="用户名称" align="center" prop="name" show-overflow-tooltip></el-table-column>
-      <el-table-column label="用户角色" align="center" prop="roleName" show-overflow-tooltip></el-table-column>
-      <el-table-column label="创建时间" align="center" prop="createTime" show-overflow-tooltip></el-table-column>
-      <el-table-column label="更新时间" align="center" prop="updateTime" show-overflow-tooltip></el-table-column>
+      <el-table-column
+        label="用户名字"
+        align="center"
+        prop="username"
+        show-overflow-tooltip
+      ></el-table-column>
+      <el-table-column
+        label="用户名称"
+        align="center"
+        prop="name"
+        show-overflow-tooltip
+      ></el-table-column>
+      <el-table-column
+        label="用户角色"
+        align="center"
+        prop="roleName"
+        show-overflow-tooltip
+      ></el-table-column>
+      <el-table-column
+        label="创建时间"
+        align="center"
+        prop="createTime"
+        show-overflow-tooltip
+      ></el-table-column>
+      <el-table-column
+        label="更新时间"
+        align="center"
+        prop="updateTime"
+        show-overflow-tooltip
+      ></el-table-column>
       <el-table-column label="操作" align="center" width="270px">
         <template #="{ row, $index }">
-          <el-button type="primary" size="small" icon="User" @click="setRole(row)">
+          <el-button
+            type="primary"
+            size="small"
+            icon="User"
+            @click="setRole(row)"
+          >
             分配角色
           </el-button>
-          <el-button type="primary" size="small" icon="Edit" @click="updateUser(row)">
+          <el-button
+            type="primary"
+            size="small"
+            icon="Edit"
+            @click="updateUser(row)"
+          >
             编辑
           </el-button>
-          <el-popconfirm :title="`你确定要删除${row.username}吗?`" width="250px;" @confirm="deleteUser(row.id)">
+          <el-popconfirm
+            :title="`你确定要删除${row.username}吗?`"
+            width="250px;"
+            @confirm="deleteUser(row.id)"
+          >
             <template #reference>
-              <el-button type="primary" size="small" icon="Delete">删除</el-button>
+              <el-button type="primary" size="small" icon="Delete">
+                删除
+              </el-button>
             </template>
           </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
     <!-- 分页器 -->
-    <el-pagination v-model:current-page="pageNo" v-model:page-size="pageSize" :page-sizes="[5, 7, 9, 11]"
-      :background="true" layout="prev, pager, next, jumper,->,sizes, total" :total="total" @current-change="getHasUser"
-      @size-change="handler" />
+    <el-pagination
+      v-model:current-page="pageNo"
+      v-model:page-size="pageSize"
+      :page-sizes="[5, 7, 9, 11]"
+      :background="true"
+      layout="prev, pager, next, jumper,->,sizes, total"
+      :total="total"
+      @current-change="getHasUser"
+      @size-change="handler"
+    />
   </el-card>
   <!-- 抽屉结构 -->
   <el-drawer v-model="drawer">
@@ -53,13 +119,22 @@
     <template #default>
       <el-form :model="userParams" :rules="rules" ref="formRef">
         <el-form-item label="用户姓名" prop="username">
-          <el-input placeholder="请填写用户姓名" v-model="userParams.username"></el-input>
+          <el-input
+            placeholder="请填写用户姓名"
+            v-model="userParams.username"
+          ></el-input>
         </el-form-item>
         <el-form-item label="用户昵称" prop="name">
-          <el-input placeholder="请填写用户昵称" v-model="userParams.name"></el-input>
+          <el-input
+            placeholder="请填写用户昵称"
+            v-model="userParams.name"
+          ></el-input>
         </el-form-item>
         <el-form-item label="用户密码" prop="password" v-if="!userParams.id">
-          <el-input placeholder="请填写用户密码" v-model="userParams.password"></el-input>
+          <el-input
+            placeholder="请填写用户密码"
+            v-model="userParams.password"
+          ></el-input>
         </el-form-item>
       </el-form>
     </template>
@@ -81,11 +156,22 @@
           <el-input v-model="userParams.username" :disabled="true"></el-input>
         </el-form-item>
         <el-form-item label="职位列表">
-          <el-checkbox v-model="checkAll" :indeterminate="indeterminate" @change="handleCheckAllChange">
+          <el-checkbox
+            v-model="checkAll"
+            :indeterminate="indeterminate"
+            @change="handleCheckAllChange"
+          >
             全选
           </el-checkbox>
-          <el-checkbox-group v-model="userRole" @change="handleCheckedCitiesChange">
-            <el-checkbox v-for="(role, index) in allRole" :key="index" :label="role">
+          <el-checkbox-group
+            v-model="userRole"
+            @change="handleCheckedCitiesChange"
+          >
+            <el-checkbox
+              v-for="(role, index) in allRole"
+              :key="index"
+              :label="role"
+            >
               {{ role.roleName }}
             </el-checkbox>
           </el-checkbox-group>
@@ -110,7 +196,7 @@ import {
   reqAllRole,
   reqSetUserRole,
   reqRemoveUser,
-  reqSelectUser
+  reqSelectUser,
 } from '@/api/acl/user/index'
 import type {
   UserResponseData,
@@ -145,18 +231,22 @@ let userRole = ref<AllRole>([])
 // 获取form表单实例
 let formRef = ref<any>()
 // 存放批量删除的数组
-let selectIdArr = ref<User[]>();
+let selectIdArr = ref<User[]>()
 // 定义响应式数据去数据要搜索的东西
-let keyword = ref<string>('');
+let keyword = ref<string>('')
 // 获取setting仓库
-let settingStore = useLayOutSettingStore();
+let settingStore = useLayOutSettingStore()
 
 // 将获取用户信息的请求封装为一个函数
 const getHasUser = async (pager = 1) => {
   // 收集当前的页码
   pageNo.value = pager
   // 发送请求
-  let result: UserResponseData = await reqUserInfo(pageNo.value, pageSize.value, keyword.value);
+  let result: UserResponseData = await reqUserInfo(
+    pageNo.value,
+    pageSize.value,
+    keyword.value,
+  )
   if (result.code == 200) {
     // 存储数据
     userArr.value = result.data.records
@@ -347,42 +437,42 @@ const confirmClick = async () => {
 
 // 删除某个员工
 const deleteUser = async (userId: number) => {
-  let result: any = await reqRemoveUser(userId);
+  let result: any = await reqRemoveUser(userId)
   if (result.code == 200) {
-    ElMessage({type: 'success', message: '删除成功'});
-    getHasUser(userArr.value.length > 1? pageNo.value:pageNo.value-1);
+    ElMessage({ type: 'success', message: '删除成功' })
+    getHasUser(userArr.value.length > 1 ? pageNo.value : pageNo.value - 1)
   }
 }
 
 // table组件的复选框事件
 const selectChange = (value: any) => {
-  selectIdArr.value = value;
+  selectIdArr.value = value
 }
 // 批量删除按钮的回调
 const deleteSelectUser = async () => {
   // 整理一下数据
-  let idList: any = selectIdArr.value?.map(item => {
-    return item.id;
-  });
+  let idList: any = selectIdArr.value?.map((item) => {
+    return item.id
+  })
   // 发起批量删除请求
-  let result:any = await reqSelectUser(idList);
+  let result: any = await reqSelectUser(idList)
   if (result.code == 200) {
-    ElMessage({type: 'success', message: '批量删除成功'});
-    getHasUser(userArr.value.length > 1? pageNo.value:pageNo.value-1);
+    ElMessage({ type: 'success', message: '批量删除成功' })
+    getHasUser(userArr.value.length > 1 ? pageNo.value : pageNo.value - 1)
   }
 }
 
 // 搜索按钮的回调
 const search = () => {
   // 再捞一次数据
-  getHasUser();
+  getHasUser()
   // 捞到后清除input框
-  keyword.value = '';
+  keyword.value = ''
 }
 
 // 重置按钮的回调
 const reset = () => {
-  settingStore.refsh = !settingStore.refsh;
+  settingStore.refsh = !settingStore.refsh
 }
 </script>
 
