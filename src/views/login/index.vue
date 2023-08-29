@@ -3,17 +3,32 @@
     <el-row>
       <el-col :span="12" :xs="0"></el-col>
       <el-col :span="12" :xs="24">
-        <el-form class="login_form" :model="loginForm" :rules="rules" ref="loginForms">
+        <el-form
+          class="login_form"
+          :model="loginForm"
+          :rules="rules"
+          ref="loginForms"
+        >
           <h1>Hello</h1>
           <h2>欢迎来到荆瑞甄选</h2>
           <el-form-item prop="username">
             <el-input v-model="loginForm.username"></el-input>
           </el-form-item>
           <el-form-item prop="password">
-            <el-input type="password" v-model="loginForm.password" show-password></el-input>
+            <el-input
+              type="password"
+              v-model="loginForm.password"
+              show-password
+            ></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button :loading="loading" class="login_btn" type="primary" size="default" @click="login">
+            <el-button
+              :loading="loading"
+              class="login_btn"
+              type="primary"
+              size="default"
+              @click="login"
+            >
               登录
             </el-button>
           </el-form-item>
