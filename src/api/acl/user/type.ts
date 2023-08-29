@@ -54,4 +54,3 @@ export interface SetRoleData {
   roleIdList: number[]
   userId: number
 }
-

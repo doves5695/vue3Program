@@ -30,7 +30,11 @@
           <el-button type="primary" size="small" icon="Edit" @click="updateRole(row)">
             编辑
           </el-button>
-          <el-button type="primary" size="small" icon="Delete">删除</el-button>
+          <el-popconfirm :title="`你确定删除${row.roleName}吗?`" width="260px" @confirm="removeRole(row.id)">
+            <template #reference>
+              <el-button type="primary" size="small" icon="Delete">删除</el-button>
+            </template>
+          </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
@@ -70,8 +74,20 @@
 
 <script setup lang="ts">
 import { ref, onMounted, reactive, nextTick } from 'vue'
-import { reqAllRoleList, reqAddOrUpdateRole, reqAllMenuList, reqSetPermission } from '@/api/acl/role'
-import type { RoleResponseData, Records, RoleData, MenuResponseData, MenuList } from '@/api/acl/role/type'
+import {
+  reqAllRoleList,
+  reqAddOrUpdateRole,
+  reqAllMenuList,
+  reqSetPermission,
+  reqRemoveRole,
+} from '@/api/acl/role'
+import type {
+  RoleResponseData,
+  Records,
+  RoleData,
+  MenuResponseData,
+  MenuList,
+} from '@/api/acl/role/type'
 import useLayOutSettingStore from '@/store/modules/setting'
 import { ElMessage } from 'element-plus'
 
@@ -99,11 +115,11 @@ let form = ref<any>()
 // 控制抽屉显示与隐藏
 let drawer = ref<boolean>(false)
 // 存储权限数据的数组
-let menuArr = ref<MenuList>([]);
+let menuArr = ref<MenuList>([])
 // 用于存储四级权限的id
-let selectArr = ref<any>([]);
+let selectArr = ref<any>([])
 // 获取树形结构的实例
-let tree = ref<any>();
+let tree = ref<any>()
 
 // 组件挂载完毕发请求
 onMounted(() => {
@@ -208,17 +224,17 @@ const save = async () => {
 }
 
 // 分配权限按钮的回调
-const setPermisstion =async (row: RoleData) => {
-  drawer.value = true;
+const setPermisstion = async (row: RoleData) => {
+  drawer.value = true
   // 把id存储一下
-  Object.assign(RoleParams, row);
+  Object.assign(RoleParams, row)
   // 发请求拿数据动态展示
-  let result: MenuResponseData = await reqAllMenuList(RoleParams.id);
+  let result: MenuResponseData = await reqAllMenuList(RoleParams.id)
   // console.log(result);
   // 如果请求成功立刻存储
   if (result.code == 200) {
-    menuArr.value = result.data;
-    selectArr.value = filterSelectArr(menuArr.value, []);
+    menuArr.value = result.data
+    selectArr.value = filterSelectArr(menuArr.value, [])
   }
 }
 
@@ -234,33 +250,43 @@ const filterSelectArr = (allData: any, initArr: any) => {
     if (item.select && item.level == 4) {
       initArr.push(item.id)
     }
-    if (item.children && item.children.length>0) {
-      filterSelectArr(item.children, initArr);
+    if (item.children && item.children.length > 0) {
+      filterSelectArr(item.children, initArr)
     }
   })
-  return initArr;
+  return initArr
 }
 
 // 抽屉确定按钮的回调
 const handler = async () => {
   // 将职位的id赋值
-  const roleId = RoleParams.id;
-  let arr = tree.value.getCheckedKeys();
+  const roleId = RoleParams.id
+  let arr = tree.value.getCheckedKeys()
   // console.log(arr)
-  let arr1 = tree.value.getHalfCheckedKeys();
+  let arr1 = tree.value.getHalfCheckedKeys()
   // 收集permissionId
-  let permissionId = arr.concat(arr1);
+  let permissionId = arr.concat(arr1)
   // 下发权限的请求
-  let result: any = await reqSetPermission(roleId, permissionId);
+  let result: any = await reqSetPermission(roleId, permissionId)
   if (result.code == 200) {
-    ElMessage({type: 'success', message:'添加权限成功'});
-    drawer.value = false;
+    ElMessage({ type: 'success', message: '添加权限成功' })
+    drawer.value = false
     // 分配成功之后刷新页面
-    window.location.reload();
+    window.location.reload()
   } else {
-    ElMessage({type: 'error', message:'添加权限失败'});
+    ElMessage({ type: 'error', message: '添加权限失败' })
   }
 }
+
+// 删除按钮的请求
+const removeRole = async (id: number) => {
+  let result: any = await reqRemoveRole(id);
+  if (result.code == 200) {
+    ElMessage({ type: 'success', message: '删除成功' });
+    getHasRole(allRole.value.length>1 ? pageNo.value: pageNo.value-1);
+  }
+}
+
 </script>
 
 <style scoped lang="scss">
