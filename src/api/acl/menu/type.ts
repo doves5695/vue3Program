@@ -24,14 +24,14 @@ export type PermissionList = Permission[]
 
 // 接口返回数据
 export interface PermissionResponseData extends ResponseData {
-    data: PermissionList
+  data: PermissionList
 }
 
 // 添加和修改的请求接口返回的数据类型
 export interface MenuParams {
-    id? : number,
-    code: string,
-    level: number,
-    pid: number,
-    name: string
+  id?: number
+  code: string
+  level: number
+  pid: number
+  name: string
 }
