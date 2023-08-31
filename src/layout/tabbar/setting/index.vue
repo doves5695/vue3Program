@@ -1,13 +1,37 @@
 <template>
-  <el-button size="small" icon="Refresh" circle @click="updateRefsh"></el-button>
-  <el-button size="small" icon="FullScreen" circle @click="fullScreen"></el-button>
+  <el-button
+    size="small"
+    icon="Refresh"
+    circle
+    @click="updateRefsh"
+  ></el-button>
+  <el-button
+    size="small"
+    icon="FullScreen"
+    circle
+    @click="fullScreen"
+  ></el-button>
   <el-popover placement="bottom" title="主题设置" :width="300" trigger="hover">
     <el-form>
       <el-form-item label="主题颜色">
-        <el-color-picker size="small" v-model="color" show-alpha :predefine="predefineColors" @change="setColor"/>
+        <el-color-picker
+          size="small"
+          v-model="color"
+          show-alpha
+          :predefine="predefineColors"
+          @change="setColor"
+        />
       </el-form-item>
       <el-form-item label="暗黑设置">
-        <el-switch v-model="value" size="default" active-icon="MoonNight" inactive-icon="Sunny" inline-prompt style="margin-left: 20px;" @change="changeDark"/>
+        <el-switch
+          v-model="value"
+          size="default"
+          active-icon="MoonNight"
+          inactive-icon="Sunny"
+          inline-prompt
+          style="margin-left: 20px"
+          @change="changeDark"
+        />
       </el-form-item>
     </el-form>
     <template #reference>
@@ -15,7 +39,10 @@
     </template>
   </el-popover>
 
-  <img :src="userStore.avatar" style="width: 24px; height: 24px; margin: 0 12px; border-radius: 50%" />
+  <img
+    :src="userStore.avatar"
+    style="width: 24px; height: 24px; margin: 0 12px; border-radius: 50%"
+  />
   <el-dropdown>
     <span class="el-dropdown-link">
       {{ userStore.username }}
@@ -41,8 +68,7 @@ let userStore = useUserStore()
 let $router = useRouter()
 let $route = useRoute()
 // 控制暗黑模式的开关
-let value = ref<boolean>(false);
-
+let value = ref<boolean>(false)
 
 // main路由刷新
 const updateRefsh = () => {
@@ -81,19 +107,19 @@ const predefineColors = ref([
   'hsl(181, 100%, 37%)',
   'hsla(209, 100%, 56%, 0.73)',
   '#c7158577',
-]);
+])
 
 // 暗黑模式的事件
 const changeDark = () => {
   // 先获取一下html文档
-  let html = document.documentElement;
-  value.value ? html.className='dark' : html.className ='';
+  let html = document.documentElement
+  value.value ? (html.className = 'dark') : (html.className = '')
 }
 
 // 控制主题颜色变化
 const setColor = () => {
-  let html = document.documentElement;
-  html.style.setProperty('--el-color-primary',color.value)
+  let html = document.documentElement
+  html.style.setProperty('--el-color-primary', color.value)
 }
 </script>
 

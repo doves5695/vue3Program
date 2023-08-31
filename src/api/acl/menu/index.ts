@@ -10,7 +10,7 @@ enum API {
   // 更新一个
   UPDATEMENU_URl = '/admin/acl/permission/update',
   // 删除功能的请求地址
-  REMOVEMENU_URL = '/admin/acl/permission/remove/'
+  REMOVEMENU_URL = '/admin/acl/permission/remove/',
 }
 // 请求接口
 export const reqAllPermisstion = () =>
@@ -27,4 +27,5 @@ export const reqAddOrUpdatePermisstion = (data: MenuParams) => {
 }
 
 // 删除请求的方式
-export const reqRemoveMenu = (id: number) => request.delete<any,any>(API.REMOVEMENU_URL+id);
+export const reqRemoveMenu = (id: number) =>
+  request.delete<any, any>(API.REMOVEMENU_URL + id)

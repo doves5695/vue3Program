@@ -1,7 +1,7 @@
 <template>
   <el-card>
     <div class="box">
-      <img :src="userStore.avatar" alt="">
+      <img :src="userStore.avatar" alt="" />
       <div class="bottom">
         <h3 class="title">{{ getTime() }}{{ userStore.username }}!!!</h3>
         <p class="subtitle">荆瑞的运营平台</p>
@@ -17,9 +17,9 @@
 // 引入存储用户的仓库
 import useUserStore from '@/store/modules/user'
 // 引入时间工具
-import { getTime } from '@/utils/time';
+import { getTime } from '@/utils/time'
 // 使用仓库的对象
-let userStore = useUserStore();
+let userStore = useUserStore()
 </script>
 
 <style scoped lang="scss">

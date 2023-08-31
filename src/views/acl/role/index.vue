@@ -337,7 +337,7 @@ const handler = async () => {
 const removeRole = async (id: number) => {
   let result: any = await reqRemoveRole(id)
   if (result.code == 200) {
-    ElMessage({ type: 'success', message: '删除成功' });
+    ElMessage({ type: 'success', message: '删除成功' })
     getHasRole(allRole.value.length > 1 ? pageNo.value : pageNo.value - 1)
   }
 }
