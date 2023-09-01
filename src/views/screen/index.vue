@@ -12,7 +12,10 @@
           <Sex class="sex"></Sex>
           <Age class="age"></Age>
         </div>
-        <div class="center">中间</div>
+        <div class="center">
+          <Map class="map"></Map>
+          <Line class="line"></Line>
+        </div>
         <div class="right">右侧</div>
       </div>
     </div>
@@ -20,31 +23,33 @@
 </template>
 
 <script setup lang="ts">
-import {ref, onMounted} from 'vue'
+import { ref, onMounted } from 'vue'
 // 引入组件
 import Top from './components/top/index.vue'
 // 将左侧三个子组件引入
 import Tourist from './components/tourist/index.vue'
 import Sex from './components/sex/index.vue'
 import Age from './components/age/index.vue'
+import Map from './components/map/index.vue'
+import Line from './components/line/index.vue'
 // 获取内容区域的dom元素
 let screen = ref()
 
 // 当挂载完毕就去把元素拽回来
 onMounted(() => {
-  screen.value.style.transform = `scale(${getScale()}) translate(-50%,-50%)`;
+  screen.value.style.transform = `scale(${getScale()}) translate(-50%,-50%)`
 })
 
 // 控制大屏内容区域的缩放比例
-function getScale(w=1920, h=1080) {
-  const ww = window.innerWidth / w;
-  const wh  = window.innerHeight / h;
-  return ww < wh ? ww: wh;
+function getScale(w = 1920, h = 1080) {
+  const ww = window.innerWidth / w
+  const wh = window.innerHeight / h
+  return ww < wh ? ww : wh
 }
 
 // 当视口发生变化的时候就会触发函数
 window.onresize = () => {
-  screen.value.style.transform = `scale(${getScale()}) translate(-50%,-50%)`;
+  screen.value.style.transform = `scale(${getScale()}) translate(-50%,-50%)`
 }
 </script>
 
@@ -68,7 +73,7 @@ window.onresize = () => {
   }
   .bottom {
     display: flex;
-    .right{
+    .right {
       flex: 1;
     }
     .left {
@@ -86,11 +91,20 @@ window.onresize = () => {
       }
       .age {
         flex: 1;
-        background-color: aqua;
+        // background-color: aqua;
       }
     }
     .center {
+      display: flex;
       flex: 2;
+      flex-direction: column;
+      .map {
+        flex: 4;
+      }
+      .line {
+        flex: 1;
+        // background-color: blue;
+      }
     }
   }
 }
