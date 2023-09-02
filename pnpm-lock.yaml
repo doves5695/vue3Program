@@ -20,6 +20,9 @@ dependencies:
   element-plus:
     specifier: ^2.3.8
     version: registry.npmmirror.com/element-plus@2.3.8(vue@3.3.4)
+  loadsh:
+    specifier: ^0.0.4
+    version: registry.npmmirror.com/loadsh@0.0.4
   moment:
     specifier: ^2.29.4
     version: registry.npmmirror.com/moment@2.29.4
@@ -5011,6 +5014,13 @@ packages:
       emojis-list: registry.npmmirror.com/emojis-list@3.0.0
       json5: registry.npmmirror.com/json5@1.0.2
     dev: true
+
+  registry.npmmirror.com/loadsh@0.0.4:
+    resolution: {integrity: sha512-U+wLL8InpfRalWrr+0SuhWgGt10M4OyAk6G8xCYo2rwpiHtxZkWiFpjei0vO463ghW8LPCdhqQxXlMy2qicAEw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/loadsh/-/loadsh-0.0.4.tgz}
+    name: loadsh
+    version: 0.0.4
+    deprecated: This is a typosquat on the popular Lodash package. This is not maintained nor is the original Lodash package.
+    dev: false
 
   registry.npmmirror.com/locate-path@5.0.0:
     resolution: {integrity: sha512-t7hw9pI+WvuwNJXwk5zVHpyhIqzg2qTlklJOf0mVxGSbe3Fp2VieZcduNYjaLDoy6p9uGpQEGWG87WpMKlNq8g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/locate-path/-/locate-path-5.0.0.tgz}

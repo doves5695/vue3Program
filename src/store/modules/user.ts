@@ -7,7 +7,28 @@ import type {
 } from '@/api/user/type'
 import type { UserState } from './types/types'
 import { SET_TOKEN, GET_TOKEN, REMOVE_TOKEN } from '@/utils/token'
-import { constantRoute } from '@/router/routes'
+// 引入常量路由, 异步路由, 任意路由
+import { constantRoute, asnycRoute, anyRoute } from '@/router/routes'
+// 引入深拷贝方法
+// @ts-ignore
+import cloneDeep from 'lodash/cloneDeep'
+
+import router from '@/router'
+
+// 定义一个函数方法来过滤不同用户的需求展示不同的异步路由
+function filterAsyncRoute (asnycRoute: any, routes: any) {
+  return asnycRoute.filter((item: any) => {
+    if (routes.includes(item.name)) {
+      if (item.children && item.children.length> 0) {
+        // 用递归再次获取一次
+        item.children = filterAsyncRoute(item.children, routes)
+      }
+      return true
+    }
+  })
+}
+
+// 创建一个用户的小仓库
 let useUserStore = defineStore('User', {
   state: (): UserState => {
     return {
@@ -36,6 +57,13 @@ let useUserStore = defineStore('User', {
       if (result.code === 200) {
         this.username = result.data.name
         this.avatar = result.data.avatar
+        // 计算需要的异步路由
+        // 注册菜单需要的路由
+        this.menuRoutes = [...constantRoute, ...asnycRoute, anyRoute];
+        // 追加路由
+        [...asnycRoute, anyRoute].forEach((route: any) => {
+          router.addRoute(route)
+        })
         return 'ok'
       } else {
         return Promise.reject(new Error(result.message))
