@@ -20,9 +20,9 @@ dependencies:
   element-plus:
     specifier: ^2.3.8
     version: registry.npmmirror.com/element-plus@2.3.8(vue@3.3.4)
-  loadsh:
-    specifier: ^0.0.4
-    version: registry.npmmirror.com/loadsh@0.0.4
+  lodash:
+    specifier: ^4.17.21
+    version: registry.npmmirror.com/lodash@4.17.21
   moment:
     specifier: ^2.29.4
     version: registry.npmmirror.com/moment@2.29.4
@@ -55,6 +55,9 @@ devDependencies:
   '@types/node':
     specifier: ^20.4.2
     version: registry.npmmirror.com/@types/node@20.4.2
+  '@types/nprogress':
+    specifier: ^0.2.0
+    version: registry.npmmirror.com/@types/nprogress@0.2.0
   '@typescript-eslint/eslint-plugin':
     specifier: ^6.0.0
     version: registry.npmmirror.com/@typescript-eslint/eslint-plugin@6.0.0(@typescript-eslint/parser@6.0.0)(eslint@8.45.0)(typescript@5.0.2)
@@ -1280,6 +1283,12 @@ packages:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/normalize-package-data/-/normalize-package-data-2.4.1.tgz}
     name: '@types/normalize-package-data'
     version: 2.4.1
+    dev: true
+
+  registry.npmmirror.com/@types/nprogress@0.2.0:
+    resolution: {integrity: sha512-1cYJrqq9GezNFPsWTZpFut/d4CjpZqA0vhqDUPFWYKF1oIyBz5qnoYMzR+0C/T96t3ebLAC1SSnwrVOm5/j74A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/nprogress/-/nprogress-0.2.0.tgz}
+    name: '@types/nprogress'
+    version: 0.2.0
     dev: true
 
   registry.npmmirror.com/@types/resolve@1.17.1:
@@ -5014,13 +5023,6 @@ packages:
       emojis-list: registry.npmmirror.com/emojis-list@3.0.0
       json5: registry.npmmirror.com/json5@1.0.2
     dev: true
-
-  registry.npmmirror.com/loadsh@0.0.4:
-    resolution: {integrity: sha512-U+wLL8InpfRalWrr+0SuhWgGt10M4OyAk6G8xCYo2rwpiHtxZkWiFpjei0vO463ghW8LPCdhqQxXlMy2qicAEw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/loadsh/-/loadsh-0.0.4.tgz}
-    name: loadsh
-    version: 0.0.4
-    deprecated: This is a typosquat on the popular Lodash package. This is not maintained nor is the original Lodash package.
-    dev: false
 
   registry.npmmirror.com/locate-path@5.0.0:
     resolution: {integrity: sha512-t7hw9pI+WvuwNJXwk5zVHpyhIqzg2qTlklJOf0mVxGSbe3Fp2VieZcduNYjaLDoy6p9uGpQEGWG87WpMKlNq8g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/locate-path/-/locate-path-5.0.0.tgz}

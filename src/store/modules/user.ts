@@ -11,15 +11,15 @@ import { SET_TOKEN, GET_TOKEN, REMOVE_TOKEN } from '@/utils/token'
 import { constantRoute, asnycRoute, anyRoute } from '@/router/routes'
 // 引入深拷贝方法
 // @ts-ignore
-import cloneDeep from 'lodash/cloneDeep'
+import cloneDeep from "lodash/cloneDeep"
 
 import router from '@/router'
 
 // 定义一个函数方法来过滤不同用户的需求展示不同的异步路由
-function filterAsyncRoute (asnycRoute: any, routes: any) {
+function filterAsyncRoute(asnycRoute: any, routes: any) {
   return asnycRoute.filter((item: any) => {
     if (routes.includes(item.name)) {
-      if (item.children && item.children.length> 0) {
+      if (item.children && item.children.length > 0) {
         // 用递归再次获取一次
         item.children = filterAsyncRoute(item.children, routes)
       }
@@ -36,6 +36,7 @@ let useUserStore = defineStore('User', {
       menuRoutes: constantRoute,
       username: '',
       avatar: '',
+      buttons: []
     }
   },
   actions: {
@@ -57,11 +58,13 @@ let useUserStore = defineStore('User', {
       if (result.code === 200) {
         this.username = result.data.name
         this.avatar = result.data.avatar
+        this.buttons = result.data.buttons
         // 计算需要的异步路由
+        let userAsyncRoute = filterAsyncRoute(cloneDeep(asnycRoute), result.data.routes)
         // 注册菜单需要的路由
-        this.menuRoutes = [...constantRoute, ...asnycRoute, anyRoute];
+        this.menuRoutes = [...constantRoute, ...userAsyncRoute, anyRoute];
         // 追加路由
-        [...asnycRoute, anyRoute].forEach((route: any) => {
+        [...userAsyncRoute, anyRoute].forEach((route: any) => {
           router.addRoute(route)
         })
         return 'ok'

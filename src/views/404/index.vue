@@ -1,13 +1,13 @@
 <template>
   <div class="box">
-    <img src="../../assets/images/error_images/401.png" alt="">
+    <img src="../../assets/images/error_images/401.png" alt="" />
     <button @click="goHome">返回首页</button>
   </div>
 </template>
 
 <script setup lang="ts">
-import {useRouter} from 'vue-router'
-let $router = useRouter();
+import { useRouter } from 'vue-router'
+let $router = useRouter()
 const goHome = () => {
   $router.push('/home')
 }

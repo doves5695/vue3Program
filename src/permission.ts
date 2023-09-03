@@ -29,7 +29,7 @@ router.beforeEach(async (to: any, from: any, next: any) => {
           // 获取用户信息后再放行
           await userStore.userInfo()
           // 需要等路由加载出来再放行
-          next({...to})
+          next({ ...to })
         } catch (error) {
           // token过期: 获取不到用户信息
           // 用户手动修改了本地信息
